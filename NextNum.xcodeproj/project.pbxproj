@@ -10,6 +10,7 @@
 		EC296FDFA7C4489CB1FC5384 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA2DEE1C04B4B89A89CD535 /* libPods.a */; };
 		F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F73DFA5D18D5BFD70057C964 /* PopupVC.m */; };
 		F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F73DFA5E18D5BFD70057C964 /* PopupVC.xib */; };
+		F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */; };
 		F7A722DF18D5B34F000B0EEE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A722DE18D5B34F000B0EEE /* Foundation.framework */; };
 		F7A722E118D5B34F000B0EEE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A722E018D5B34F000B0EEE /* CoreGraphics.framework */; };
 		F7A722E318D5B34F000B0EEE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A722E218D5B34F000B0EEE /* UIKit.framework */; };
@@ -45,6 +46,7 @@
 		F73DFA5C18D5BFD70057C964 /* PopupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupVC.h; sourceTree = "<group>"; };
 		F73DFA5D18D5BFD70057C964 /* PopupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupVC.m; sourceTree = "<group>"; };
 		F73DFA5E18D5BFD70057C964 /* PopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupVC.xib; sourceTree = "<group>"; };
+		F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		F7A722DB18D5B34F000B0EEE /* NextNum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NextNum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7A722DE18D5B34F000B0EEE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F7A722E018D5B34F000B0EEE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -76,6 +78,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7A722E118D5B34F000B0EEE /* CoreGraphics.framework in Frameworks */,
+				F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */,
 				F7A722E318D5B34F000B0EEE /* UIKit.framework in Frameworks */,
 				F7A722DF18D5B34F000B0EEE /* Foundation.framework in Frameworks */,
 				EC296FDFA7C4489CB1FC5384 /* libPods.a in Frameworks */,
@@ -118,6 +121,7 @@
 		F7A722DD18D5B34F000B0EEE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */,
 				F7A722DE18D5B34F000B0EEE /* Foundation.framework */,
 				F7A722E018D5B34F000B0EEE /* CoreGraphics.framework */,
 				F7A722E218D5B34F000B0EEE /* UIKit.framework */,
@@ -450,6 +454,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/manted/Documents/FacebookSDK,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";
 				INFOPLIST_FILE = "NextNum/NextNum-Info.plist";
@@ -465,6 +473,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/manted/Documents/FacebookSDK,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";
 				INFOPLIST_FILE = "NextNum/NextNum-Info.plist";

@@ -14,7 +14,9 @@
 @interface PopupVC : UIViewController
 
 @property (nonatomic, strong) ViewController *vc;
+@property (nonatomic, strong) UIImage *img;
 
 -(void)setFinalScore:(int)score;
+-(void)setImg:(UIImage *)img;
 
 @end

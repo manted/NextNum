@@ -25,7 +25,9 @@
 @property (nonatomic, strong) UIImage *imgLight;
 
 
-@property (nonatomic) BOOL isTouching;
+//@property (nonatomic) BOOL isTouching;
+
+@property (nonatomic, strong) UITapGestureRecognizer *recognizer;
 
 @end
 
@@ -47,7 +49,9 @@
         [self.imgV setImage:self.imgDark];
         [self addSubview:self.imgV];
         [self addSubview:self.numLabel];
-        self.isTouching = NO;
+//        self.isTouching = NO;
+        
+//        self.recognizer = [UITapGestureRecognizer alloc]initWithTarget:<#(id)#> action:<#(SEL)#>
     }
     return self;
 }
@@ -120,15 +124,15 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-//    NSLog(@"began number = %d", self.number);
-    self.isTouching = YES;
+    NSLog(@"began number = %d", self.number);
+//    self.isTouching = YES;
     [self.vc beginTouchingNumber:self];
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 //    NSLog(@"end number = %d", self.number);
-    self.isTouching = NO;
+//    self.isTouching = NO;
     [self.vc endTouchingNumber:self];
 }
 

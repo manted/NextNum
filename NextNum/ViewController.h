@@ -22,4 +22,6 @@
 
 -(void)tryAgain;
 
+//+ (UIImage *) imageWithView:(UIView *)view;
+
 @end

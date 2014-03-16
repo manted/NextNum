@@ -1,0 +1,10 @@
+PODS:
+  - CWPopup (1.2.5)
+
+DEPENDENCIES:
+  - CWPopup (~> 1.2.4)
+
+SPEC CHECKSUMS:
+  CWPopup: 140b988b9e4e6418c8cda6588790c8327d61fd7d
+
+COCOAPODS: 0.29.0

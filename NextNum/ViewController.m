@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "PopupVC.h"
 
 @interface ViewController ()
 
@@ -23,7 +23,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self addNumberViews];
-    self.currentNumber = 1;
+    self.currentNumber = INITIAL_NUMBER;
     [self setNumber];
 }
 
@@ -50,29 +50,11 @@
 
 -(void)setNumber
 {
-//    if (self.currentNumber == 1) {
-//        int x = arc4random() % 16;
-//        [(NumberView*)[self.array objectAtIndex:x]setNumber:1];
-//    }else{
-        //get an empty number view
-        int x = arc4random() % 16;
-        while ([(NumberView*)[self.array objectAtIndex:x]isEmpty] == NO) {
-            x = arc4random() % 16;
-        }
-        [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
-//    }
-}
-
--(int)countEmptyView
-{
-    int count = 0;
-    for (NumberView *view in self.array) {
-        if ([view getNumber] == 0) {
-            
-        }
-       
+    int x = arc4random() % 16;
+    while ([(NumberView*)[self.array objectAtIndex:x]isEmpty] == NO) {
+        x = arc4random() % 16;
     }
-    return count;
+    [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
 }
 
 -(int)numberOfTouching
@@ -111,6 +93,27 @@
 -(void)gameOver
 {
     NSLog(@"game over");
+    PopupVC *popup = [[PopupVC alloc] initWithNibName:@"PopupVC" bundle:nil];
+    popup.vc = self;
+    [popup setFinalScore:self.currentNumber - 1];
+    [self presentPopupViewController:popup animated:YES completion:nil];
+}
+
+-(void)tryAgain
+{
+    if (self.popupViewController != nil) {
+        [self dismissPopupViewControllerAnimated:YES completion:nil];
+    }
+    [self reset];
+}
+
+-(void)reset
+{
+    self.currentNumber = INITIAL_NUMBER;
+    for (NumberView *view in self.array) {
+        [view setNumber:0];
+    }
+    [self setNumber];
 }
 
 @end

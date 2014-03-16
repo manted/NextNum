@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "NumberView.h"
+#import "UIViewController+CWPopup.h"
+
+#define INITIAL_NUMBER 1
+#define EMPTY_NUMBER 0
 
 @class NumberView;
 
@@ -15,5 +19,7 @@
 
 -(void)beginTouchingNumber:(NumberView*)view;
 -(void)endTouchingNumber:(NumberView*)view;
+
+-(void)tryAgain;
 
 @end

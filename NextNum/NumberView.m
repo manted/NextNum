@@ -92,7 +92,7 @@
 -(void)setNumber:(int)number
 {
     _number = number;
-    if (number == 0) {
+    if (number == EMPTY_NUMBER) {
         [self.numLabel setText:@""];
         [self.imgV setImage:self.imgDark];
     }else{
@@ -109,7 +109,7 @@
 
 -(void)clearNumber
 {
-    self.number = 0;
+    self.number = EMPTY_NUMBER;
     [self.imgV setImage:self.imgDark];
 }
 
@@ -134,7 +134,7 @@
 
 -(BOOL)isEmpty
 {
-    return self.number == 0;
+    return self.number == EMPTY_NUMBER;
 }
 
 @end

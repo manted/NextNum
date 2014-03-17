@@ -33,3 +33,5 @@ DerivedData
 Pods
 
 *.plist
+
+Parse.framework

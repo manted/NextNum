@@ -12,6 +12,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
 
+#define IPHONE_6_0 (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0)
+
+#ifdef IPHONE_6_0
+# define ALIGN_CENTER NSTextAlignmentCenter
+#else
+# define ALIGN_CENTER UITextAlignmentCenter
+#endif
+
 @interface ViewController ()
 
 @property (nonatomic, strong) NSMutableArray *array;
@@ -68,6 +76,14 @@
         self.wrObject = worldRecord;
         [self updateWorldRecord:wr];
     }];
+    
+    if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
+        [self.persenalLabel setTextAlignment:ALIGN_CENTER];
+        [self.worldLabel setTextAlignment:ALIGN_CENTER];
+    }else{
+        [self.persenalLabel setTextAlignment:ALIGN_CENTER];
+        [self.worldLabel setTextAlignment:ALIGN_CENTER];
+    }
 }
 
 -(void)setManagedDocument:(UIManagedDocument *)managedDocument
@@ -131,7 +147,11 @@
 -(UILabel*)persenalLabel
 {
     if (!_persenalLabel) {
-        _persenalLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 40, 100, 20)];
+        _persenalLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, 160, 20)];
+        [_persenalLabel setAdjustsFontSizeToFitWidth:YES];
+        [_persenalLabel setBackgroundColor:[UIColor clearColor]];
+        [_persenalLabel setTextColor:[UIColor yellowColor]];
+        [_persenalLabel setFont:[UIFont fontWithName:@"Chalkduster" size:20]];
     }
     return _persenalLabel;
 }
@@ -139,7 +159,11 @@
 -(UILabel*)worldLabel
 {
     if (!_worldLabel) {
-        _worldLabel = [[UILabel alloc]initWithFrame:CGRectMake(120, 40, 100, 20)];
+        _worldLabel = [[UILabel alloc]initWithFrame:CGRectMake(160, 50, 160, 20)];
+        [_worldLabel setAdjustsFontSizeToFitWidth:YES];
+        [_worldLabel setBackgroundColor:[UIColor clearColor]];
+        [_worldLabel setTextColor:[UIColor grayColor]];
+        [_worldLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
     }
     return _worldLabel;
 }
@@ -152,13 +176,13 @@
 
 -(void)updatePersenalRecordLabel:(int)record
 {
-    [self.persenalLabel setText:[NSString stringWithFormat:@"Best: %d",self.worldRecord]];
+    [self.persenalLabel setText:[NSString stringWithFormat:@"Best: %d",record]];
 }
 
 -(UIView*)containerView
 {
     if (!_containerView) {
-        _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 60, 320, 320)];
+        _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 100, 320, 320)];
     }
     return _containerView;
 }
@@ -199,8 +223,11 @@
 -(void)beginTouchingNumber:(NumberView*)view
 {
     if ([view getNumber] == self.currentNumber) {
-        self.persenalRecord.persenalRecord = [NSNumber numberWithInt:self.currentNumber];
-        [self updatePersenalRecordLabel:self.currentNumber];
+        //update persenal record immidiately
+        if (self.currentNumber > [self.persenalRecord.persenalRecord intValue]) {
+            self.persenalRecord.persenalRecord = [NSNumber numberWithInt:self.currentNumber];
+            [self updatePersenalRecordLabel:self.currentNumber];
+        }
         self.currentNumber++;
         [self setNumber];
     }else{
@@ -257,8 +284,6 @@
     popup.img = img;
     [self presentPopupViewController:popup animated:YES completion:nil];
     
-    
-
 }
 
 -(void)tryAgain

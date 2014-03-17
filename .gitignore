@@ -35,3 +35,5 @@ Pods
 *.plist
 
 Parse.framework
+
+NextNum/AppDelegate.m

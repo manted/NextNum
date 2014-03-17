@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EC296FDFA7C4489CB1FC5384 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA2DEE1C04B4B89A89CD535 /* libPods.a */; };
+		F70A7EE918D69FDB0027879C /* Record.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F70A7EE718D69FDB0027879C /* Record.xcdatamodeld */; };
+		F70A7EEC18D6A1260027879C /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = F70A7EEB18D6A1260027879C /* Record.m */; };
+		F70A7EEF18D6B3A70027879C /* Record+CoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = F70A7EEE18D6B3A70027879C /* Record+CoreData.m */; };
 		F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F73DFA5D18D5BFD70057C964 /* PopupVC.m */; };
 		F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F73DFA5E18D5BFD70057C964 /* PopupVC.xib */; };
 		F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */; };
@@ -43,6 +46,11 @@
 /* Begin PBXFileReference section */
 		44A4445F7AEC4F2AAD2285BB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		ADA2DEE1C04B4B89A89CD535 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F70A7EE818D69FDB0027879C /* Record.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Record.xcdatamodel; sourceTree = "<group>"; };
+		F70A7EEA18D6A1260027879C /* Record.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Record.h; sourceTree = "<group>"; };
+		F70A7EEB18D6A1260027879C /* Record.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Record.m; sourceTree = "<group>"; };
+		F70A7EED18D6B3A70027879C /* Record+CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Record+CoreData.h"; sourceTree = "<group>"; };
+		F70A7EEE18D6B3A70027879C /* Record+CoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Record+CoreData.m"; sourceTree = "<group>"; };
 		F73DFA5C18D5BFD70057C964 /* PopupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupVC.h; sourceTree = "<group>"; };
 		F73DFA5D18D5BFD70057C964 /* PopupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupVC.m; sourceTree = "<group>"; };
 		F73DFA5E18D5BFD70057C964 /* PopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupVC.xib; sourceTree = "<group>"; };
@@ -141,6 +149,11 @@
 				F7A7231B18D5B42C000B0EEE /* ViewController.m */,
 				F73DFA5C18D5BFD70057C964 /* PopupVC.h */,
 				F73DFA5D18D5BFD70057C964 /* PopupVC.m */,
+				F70A7EE718D69FDB0027879C /* Record.xcdatamodeld */,
+				F70A7EEA18D6A1260027879C /* Record.h */,
+				F70A7EEB18D6A1260027879C /* Record.m */,
+				F70A7EED18D6B3A70027879C /* Record+CoreData.h */,
+				F70A7EEE18D6B3A70027879C /* Record+CoreData.m */,
 				F73DFA5E18D5BFD70057C964 /* PopupVC.xib */,
 				F7A722ED18D5B34F000B0EEE /* AppDelegate.h */,
 				F7A722EE18D5B34F000B0EEE /* AppDelegate.m */,
@@ -324,7 +337,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F70A7EE918D69FDB0027879C /* Record.xcdatamodeld in Sources */,
+				F70A7EEF18D6B3A70027879C /* Record+CoreData.m in Sources */,
 				F7A722EF18D5B34F000B0EEE /* AppDelegate.m in Sources */,
+				F70A7EEC18D6A1260027879C /* Record.m in Sources */,
 				F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */,
 				F7A722EB18D5B34F000B0EEE /* main.m in Sources */,
 				F7A7231F18D5B42C000B0EEE /* ViewController.m in Sources */,
@@ -557,6 +573,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F70A7EE718D69FDB0027879C /* Record.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F70A7EE818D69FDB0027879C /* Record.xcdatamodel */,
+			);
+			currentVersion = F70A7EE818D69FDB0027879C /* Record.xcdatamodel */;
+			path = Record.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F7A722D318D5B34F000B0EEE /* Project object */;
 }

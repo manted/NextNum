@@ -94,4 +94,13 @@
         [connection start];
     }
 }
+
+-(void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    _managedObjectContext = managedObjectContext;
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Record"];
+    request.predicate = nil;
+
+}
 @end

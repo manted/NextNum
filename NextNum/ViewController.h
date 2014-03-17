@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NumberView.h"
 #import "UIViewController+CWPopup.h"
+#import <CoreData/CoreData.h>
 
 #define INITIAL_NUMBER 1
 #define EMPTY_NUMBER 0

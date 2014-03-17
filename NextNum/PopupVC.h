@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
+#import <CoreData/CoreData.h>
 
 @class ViewController;
 
@@ -15,6 +16,8 @@
 
 @property (nonatomic, strong) ViewController *vc;
 @property (nonatomic, strong) UIImage *img;
+
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 -(void)setFinalScore:(int)score;
 -(void)setImg:(UIImage *)img;

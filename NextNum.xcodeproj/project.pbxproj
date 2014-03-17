@@ -11,6 +11,7 @@
 		F70A7EE918D69FDB0027879C /* Record.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F70A7EE718D69FDB0027879C /* Record.xcdatamodeld */; };
 		F70A7EEC18D6A1260027879C /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = F70A7EEB18D6A1260027879C /* Record.m */; };
 		F70A7EEF18D6B3A70027879C /* Record+CoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = F70A7EEE18D6B3A70027879C /* Record+CoreData.m */; };
+		F70A7EF218D6D5170027879C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F70A7EF118D6D5170027879C /* Parse.framework */; };
 		F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F73DFA5D18D5BFD70057C964 /* PopupVC.m */; };
 		F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F73DFA5E18D5BFD70057C964 /* PopupVC.xib */; };
 		F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */; };
@@ -51,6 +52,7 @@
 		F70A7EEB18D6A1260027879C /* Record.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Record.m; sourceTree = "<group>"; };
 		F70A7EED18D6B3A70027879C /* Record+CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Record+CoreData.h"; sourceTree = "<group>"; };
 		F70A7EEE18D6B3A70027879C /* Record+CoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Record+CoreData.m"; sourceTree = "<group>"; };
+		F70A7EF118D6D5170027879C /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		F73DFA5C18D5BFD70057C964 /* PopupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupVC.h; sourceTree = "<group>"; };
 		F73DFA5D18D5BFD70057C964 /* PopupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupVC.m; sourceTree = "<group>"; };
 		F73DFA5E18D5BFD70057C964 /* PopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupVC.xib; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */,
 				F7A722E318D5B34F000B0EEE /* UIKit.framework in Frameworks */,
 				F7A722DF18D5B34F000B0EEE /* Foundation.framework in Frameworks */,
+				F70A7EF218D6D5170027879C /* Parse.framework in Frameworks */,
 				EC296FDFA7C4489CB1FC5384 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,6 +109,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F70A7EF018D6D4280027879C /* modal */ = {
+			isa = PBXGroup;
+			children = (
+				F70A7EE718D69FDB0027879C /* Record.xcdatamodeld */,
+				F70A7EEA18D6A1260027879C /* Record.h */,
+				F70A7EEB18D6A1260027879C /* Record.m */,
+				F70A7EED18D6B3A70027879C /* Record+CoreData.h */,
+				F70A7EEE18D6B3A70027879C /* Record+CoreData.m */,
+			);
+			name = modal;
+			sourceTree = "<group>";
+		};
 		F7A722D218D5B34F000B0EEE = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +144,7 @@
 		F7A722DD18D5B34F000B0EEE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F70A7EF118D6D5170027879C /* Parse.framework */,
 				F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */,
 				F7A722DE18D5B34F000B0EEE /* Foundation.framework */,
 				F7A722E018D5B34F000B0EEE /* CoreGraphics.framework */,
@@ -142,23 +158,19 @@
 		F7A722E418D5B34F000B0EEE /* NextNum */ = {
 			isa = PBXGroup;
 			children = (
-				F7BED35918D5BA040002A625 /* img */,
+				F70A7EF018D6D4280027879C /* modal */,
 				F7A7231618D5B42C000B0EEE /* NumberView.h */,
 				F7A7231718D5B42C000B0EEE /* NumberView.m */,
 				F7A7231A18D5B42C000B0EEE /* ViewController.h */,
 				F7A7231B18D5B42C000B0EEE /* ViewController.m */,
 				F73DFA5C18D5BFD70057C964 /* PopupVC.h */,
 				F73DFA5D18D5BFD70057C964 /* PopupVC.m */,
-				F70A7EE718D69FDB0027879C /* Record.xcdatamodeld */,
-				F70A7EEA18D6A1260027879C /* Record.h */,
-				F70A7EEB18D6A1260027879C /* Record.m */,
-				F70A7EED18D6B3A70027879C /* Record+CoreData.h */,
-				F70A7EEE18D6B3A70027879C /* Record+CoreData.m */,
 				F73DFA5E18D5BFD70057C964 /* PopupVC.xib */,
 				F7A722ED18D5B34F000B0EEE /* AppDelegate.h */,
 				F7A722EE18D5B34F000B0EEE /* AppDelegate.m */,
 				F7A722F018D5B34F000B0EEE /* Main.storyboard */,
 				F7A722F618D5B34F000B0EEE /* Images.xcassets */,
+				F7BED35918D5BA040002A625 /* img */,
 				F7A722E518D5B34F000B0EEE /* Supporting Files */,
 			);
 			path = NextNum;
@@ -473,6 +485,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/manted/Documents/FacebookSDK,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";
@@ -492,6 +505,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/manted/Documents/FacebookSDK,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";

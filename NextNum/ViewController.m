@@ -10,6 +10,7 @@
 #import "PopupVC.h"
 #import "Record+CoreData.h"
 #import <QuartzCore/QuartzCore.h>
+#import <Parse/Parse.h>
 
 @interface ViewController ()
 
@@ -22,6 +23,7 @@
 
 @property (nonatomic, strong) Record *persenalRecord;
 //@property (nonatomic) int persenalRecord;
+@property (nonatomic, strong) PFObject *wrObject;
 @property (nonatomic) int worldRecord;
 
 @property (nonatomic, strong) UILabel *persenalLabel;
@@ -41,6 +43,7 @@
     [self addNumberViews];
     self.currentNumber = INITIAL_NUMBER;
     [self setNumber];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -54,9 +57,17 @@
         self.managedDocument = [[UIManagedDocument alloc] initWithFileURL:url]; // setter will create this for us on disk
     }
     
-    [self.persenalLabel setText:[NSString stringWithFormat:@"Best: 0"]];
-    [self.worldLabel setText:[NSString stringWithFormat:@"WR: 0"]];
+    [self.persenalLabel setText:[NSString stringWithFormat:@"Best: "]];
+    [self.worldLabel setText:[NSString stringWithFormat:@"WR: ?"]];
     
+    // get world record from Parse
+    PFQuery *query = [PFQuery queryWithClassName:@"WR"];
+    [query getObjectInBackgroundWithId:@"f2V7qDto9G" block:^(PFObject *worldRecord, NSError *error) {
+        int wr = [[worldRecord objectForKey:@"record"] intValue];
+//        NSLog(@"%d", wr);
+        self.wrObject = worldRecord;
+        [self updateWorldRecord:wr];
+    }];
 }
 
 -(void)setManagedDocument:(UIManagedDocument *)managedDocument
@@ -98,7 +109,7 @@
 //        NSLog(@"%d",[self.persenalRecord.persenalRecord intValue]);
         if (self.persenalRecord) {
             NSLog(@"read record from db");
-            [self.persenalLabel setText:[NSString stringWithFormat:@"Best: %d",[self.persenalRecord.persenalRecord intValue]]];
+            [self updatePersenalRecordLabel:[self.persenalRecord.persenalRecord intValue]];
         }
 
     }else if (self.managedDocument.documentState == UIDocumentStateClosed) {
@@ -117,18 +128,6 @@
     return _array;
 }
 
-//-(void)setPersenalRecord:(Record*)persenalRecord
-//{
-//    self.persenalRecord = persenalRecord;
-//    self.persenalLabel.text = [NSString stringWithFormat:@"Best: %d",[self.persenalRecord.persenalRecord intValue]];
-//}
-
--(void)setWorldRecord:(int)worldRecord
-{
-    self.worldRecord = worldRecord;
-//    self.worldLabel.text = [NSString stringWithFormat:@"WR: %d",self.worldRecord];
-}
-
 -(UILabel*)persenalLabel
 {
     if (!_persenalLabel) {
@@ -143,6 +142,17 @@
         _worldLabel = [[UILabel alloc]initWithFrame:CGRectMake(120, 40, 100, 20)];
     }
     return _worldLabel;
+}
+
+-(void)updateWorldRecord:(int)record
+{
+    self.worldRecord = record;
+    [self.worldLabel setText:[NSString stringWithFormat:@"WR: %d",self.worldRecord]];
+}
+
+-(void)updatePersenalRecordLabel:(int)record
+{
+    [self.persenalLabel setText:[NSString stringWithFormat:@"Best: %d",self.worldRecord]];
 }
 
 -(UIView*)containerView
@@ -189,6 +199,8 @@
 -(void)beginTouchingNumber:(NumberView*)view
 {
     if ([view getNumber] == self.currentNumber) {
+        self.persenalRecord.persenalRecord = [NSNumber numberWithInt:self.currentNumber];
+        [self updatePersenalRecordLabel:self.currentNumber];
         self.currentNumber++;
         [self setNumber];
     }else{
@@ -215,7 +227,27 @@
 
     if (score > [self.persenalRecord.persenalRecord intValue]) {
         self.persenalRecord.persenalRecord = [NSNumber numberWithInt:score];
-        [self.persenalLabel setText:[NSString stringWithFormat:@"Best: %d",[self.persenalRecord.persenalRecord intValue]]];
+        [self updatePersenalRecordLabel:score];
+    }
+    
+    if (score > self.worldRecord) {
+//        self.wrObject[@"record"] = @score;
+        [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
+        [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                NSLog(@"******%@",error.description);
+            }
+            if (succeeded) {
+                NSLog(@"######");
+                [self updateWorldRecord:score];
+            }else{
+                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                    int latestWR = [[object objectForKey:@"record"] intValue];
+                    self.wrObject = object;
+                    [self updateWorldRecord:latestWR];
+                }];
+            }
+        }];
     }
     
     PopupVC *popup = [[PopupVC alloc] initWithNibName:@"PopupVC" bundle:nil];
@@ -224,6 +256,9 @@
     UIImage *img = [self imageWithView:self.containerView];
     popup.img = img;
     [self presentPopupViewController:popup animated:YES completion:nil];
+    
+    
+
 }
 
 -(void)tryAgain

@@ -49,9 +49,8 @@
         [self.imgV setImage:self.imgDark];
         [self addSubview:self.imgV];
         [self addSubview:self.numLabel];
-//        self.isTouching = NO;
-        
-//        self.recognizer = [UITapGestureRecognizer alloc]initWithTarget:<#(id)#> action:<#(SEL)#>
+
+//        [self setUserInteractionEnabled:YES];
     }
     return self;
 }
@@ -62,11 +61,36 @@
         _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
         [_numLabel setAdjustsFontSizeToFitWidth:YES];
         [_numLabel setBackgroundColor:[UIColor clearColor]];
-        [_numLabel setTextColor:[UIColor redColor]];
+        [_numLabel setTextColor:[self getColor]];
         [_numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:60]];
-
     }
     return _numLabel;
+}
+
+-(UIColor*)getColor
+{
+    int x = arc4random() % 5;
+    UIColor *color = nil;
+    switch (x) {
+        case 0:
+            color = [UIColor colorWithRed:151.0/255.0f green:112.0/255.0f blue:138.0/255.0f alpha:1];
+            break;
+        case 1:
+            color = [UIColor colorWithRed:88.0/255.0f green:58.0/255.0f blue:82.0/255.0f alpha:1];
+            break;
+        case 2:
+            color = [UIColor colorWithRed:171.0/255.0f green:99.0/255.0f blue:97.0/255.0f alpha:1];
+            break;
+        case 3:
+            color = [UIColor colorWithRed:175.0/255.0f green:143.0/255.0f blue:143.0/255.0f alpha:1];
+            break;
+        case 4:
+            color = [UIColor colorWithRed:226.0/255.0f green:171.0/255.0f blue:121.0/255.0f alpha:1];
+            break;
+        default:
+            break;
+    }
+    return color;
 }
 
 -(UIImageView*)imgV
@@ -102,8 +126,8 @@
     }else{
         [self.numLabel setText:[NSString stringWithFormat:@"%d",number]];
         [self.imgV setImage:self.imgLight];
+        [self.numLabel setTextColor:[self getColor]];
     }
-
 }
 
 -(int)getNumber
@@ -131,9 +155,10 @@
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-//    NSLog(@"end number = %d", self.number);
+    NSLog(@"end number = %d", self.number);
 //    self.isTouching = NO;
     [self.vc endTouchingNumber:self];
+    [self clearNumber];
 }
 
 -(BOOL)isEmpty

@@ -150,7 +150,7 @@
         _persenalLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, 160, 20)];
         [_persenalLabel setAdjustsFontSizeToFitWidth:YES];
         [_persenalLabel setBackgroundColor:[UIColor clearColor]];
-        [_persenalLabel setTextColor:[UIColor yellowColor]];
+        [_persenalLabel setTextColor:[UIColor whiteColor]];
         [_persenalLabel setFont:[UIFont fontWithName:@"Chalkduster" size:20]];
     }
     return _persenalLabel;
@@ -162,7 +162,7 @@
         _worldLabel = [[UILabel alloc]initWithFrame:CGRectMake(160, 50, 160, 20)];
         [_worldLabel setAdjustsFontSizeToFitWidth:YES];
         [_worldLabel setBackgroundColor:[UIColor clearColor]];
-        [_worldLabel setTextColor:[UIColor grayColor]];
+        [_worldLabel setTextColor:[UIColor whiteColor]];
         [_worldLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
     }
     return _worldLabel;
@@ -183,6 +183,7 @@
 {
     if (!_containerView) {
         _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 100, 320, 320)];
+//        [_containerView setUserInteractionEnabled:NO];
     }
     return _containerView;
 }
@@ -244,7 +245,7 @@
     }else{
         
     }
-    [view clearNumber];
+//    [view clearNumber];
 }
 
 -(void)gameOver

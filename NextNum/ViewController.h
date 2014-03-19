@@ -22,6 +22,9 @@
 -(void)endTouchingNumber:(NumberView*)view;
 
 -(void)tryAgain;
+-(int)numberOfTouching;
+-(void)gameOver;
+-(BOOL)isOver;
 
 //+ (UIImage *) imageWithView:(UIView *)view;
 

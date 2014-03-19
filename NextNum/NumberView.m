@@ -23,9 +23,9 @@
 @property (nonatomic, strong) UIImageView *imgV;
 @property (nonatomic, strong) UIImage *imgDark;
 @property (nonatomic, strong) UIImage *imgLight;
+@property (nonatomic, strong) UIImageView *redCrossView;
 
-
-//@property (nonatomic) BOOL isTouching;
+@property (nonatomic) BOOL isTouching;
 
 @property (nonatomic, strong) UITapGestureRecognizer *recognizer;
 
@@ -50,6 +50,10 @@
         [self addSubview:self.imgV];
         [self addSubview:self.numLabel];
 
+        UIImage *img = [UIImage imageNamed:@"redcross"];
+        self.redCrossView.image = img;
+        [self addSubview:self.redCrossView];
+        [self hideRedCross];
 //        [self setUserInteractionEnabled:YES];
     }
     return self;
@@ -91,6 +95,14 @@
             break;
     }
     return color;
+}
+
+-(UIImageView*)redCrossView
+{
+    if (!_redCrossView) {
+        _redCrossView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+    }
+    return _redCrossView;
 }
 
 -(UIImageView*)imgV
@@ -139,31 +151,55 @@
 {
     self.number = EMPTY_NUMBER;
     [self.imgV setImage:self.imgDark];
+    self.isTouching = NO;
 }
 
 -(BOOL)isTouching
 {
-    return self.isTouching;
+    return _isTouching;
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"began number = %d", self.number);
-//    self.isTouching = YES;
+    self.isTouching = YES;
     [self.vc beginTouchingNumber:self];
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"end number = %d", self.number);
-//    self.isTouching = NO;
+    self.isTouching = NO;
     [self.vc endTouchingNumber:self];
     [self clearNumber];
+}
+
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"touches cancelled");
+    if ([self.vc isOver] == NO) {
+        NSLog(@"touches cancelled numbeb of touching: %d",[self.vc numberOfTouching]);
+        if ([self.vc numberOfTouching] >= 2) {
+            NSLog(@"touches cancelled 2");
+            [self.vc gameOver];
+        }
+    }
+    self.isTouching = NO;
 }
 
 -(BOOL)isEmpty
 {
     return self.number == EMPTY_NUMBER;
+}
+
+-(void)showRedCross
+{
+    self.redCrossView.hidden = NO;
+}
+
+-(void)hideRedCross
+{
+    self.redCrossView.hidden = YES;
 }
 
 @end

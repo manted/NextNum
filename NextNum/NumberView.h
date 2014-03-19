@@ -22,4 +22,6 @@
 -(BOOL)isTouching;
 -(BOOL)isEmpty;
 
+-(void)showRedCross;
+-(void)hideRedCross;
 @end

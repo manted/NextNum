@@ -39,10 +39,11 @@
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UILabel *timeLabel;
-//@property (nonatomic) int timeLimit;
-//@property (nonatomic) int currentTime;
+
 @property (nonatomic) int decisecond;
 @property (nonatomic) int second;
+
+@property (nonatomic) BOOL isOver;
 
 @end
 
@@ -93,6 +94,8 @@
         [self.worldLabel setTextAlignment:ALIGN_CENTER];
         [self.timeLabel setTextAlignment:ALIGN_CENTER];
     }
+    
+    self.isOver = NO;
 }
 
 -(void)setManagedDocument:(UIManagedDocument *)managedDocument
@@ -232,48 +235,57 @@
     [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
 }
 
-//-(int)numberOfTouching
-//{
-//    int count = 0;
-//    for (NumberView *view in self.array) {
-//        if (view.isTouching) {
-//            count++;
-//        }
-//    }
-//    return count;
-//}
+-(int)numberOfTouching
+{
+    int count = 0;
+    for (NumberView *view in self.array) {
+        if ([view isTouching]) {
+            count++;
+        }
+    }
+    return count;
+}
 
 -(void)beginTouchingNumber:(NumberView*)view
 {
-    if ([view getNumber] == self.currentNumber) {
-        //update persenal record immidiately
-        if (self.currentNumber > [self.persenalRecord.persenalRecord intValue]) {
-            self.persenalRecord.persenalRecord = [NSNumber numberWithInt:self.currentNumber];
-            [self updatePersenalRecordLabel:self.currentNumber];
+    if (self.isOver == NO) {
+        if ([view getNumber] == self.currentNumber) {
+            //update persenal record immidiately
+            if (self.currentNumber > [self.persenalRecord.persenalRecord intValue]) {
+                self.persenalRecord.persenalRecord = [NSNumber numberWithInt:self.currentNumber];
+                [self updatePersenalRecordLabel:self.currentNumber];
+            }
+            self.currentNumber++;
+            [self setNumber];
+            [self setTime];
+        }else{
+            [view showRedCross];
+            [self gameOver];
         }
-        self.currentNumber++;
-        [self setNumber];
-        [self setTime];
-    }else{
-        [self gameOver];
+
     }
 }
 
 -(void)endTouchingNumber:(NumberView*)view
 {
 //    NSLog(@"end touching number = %d, current number = %d", [view getNumber],self.currentNumber);
-    
-    if ([view getNumber] + 2 != self.currentNumber) {
-        [self gameOver];
-    }else{
-        
+    if (self.isOver == NO) {
+        if ([view getNumber] + 2 != self.currentNumber) {
+            [view showRedCross];
+            [self gameOver];
+        }else{
+            
+        }
+        //    [view clearNumber];
     }
-//    [view clearNumber];
+    
 }
 
 -(void)gameOver
 {
 //    NSLog(@"game over");
+    self.isOver = YES;
+    
     [self.timer invalidate];
     self.timer = nil;
     
@@ -313,6 +325,11 @@
     
 }
 
+-(BOOL)isOver
+{
+    return _isOver;
+}
+
 -(void)tryAgain
 {
     if (self.popupViewController != nil) {
@@ -326,9 +343,11 @@
     self.currentNumber = INITIAL_NUMBER;
     for (NumberView *view in self.array) {
         [view setNumber:0];
+        [view hideRedCross];
     }
     [self setNumber];
     [self.timeLabel setText:@"Time Remaining"];
+    self.isOver = NO;
 }
 
 -(void)setTime

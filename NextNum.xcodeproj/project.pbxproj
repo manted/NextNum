@@ -24,6 +24,7 @@
 		F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F73DFA5D18D5BFD70057C964 /* PopupVC.m */; };
 		F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F73DFA5E18D5BFD70057C964 /* PopupVC.xib */; };
 		F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */; };
+		F758FEA918D9AF3B00A56B6A /* redcross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F758FEA818D9AF3B00A56B6A /* redcross@2x.png */; };
 		F79BE10A18D8524B008725E4 /* fbshare.png in Resources */ = {isa = PBXBuildFile; fileRef = F79BE10918D8524B008725E4 /* fbshare.png */; };
 		F79BE10C18D855F6008725E4 /* tryagain.png in Resources */ = {isa = PBXBuildFile; fileRef = F79BE10B18D855F6008725E4 /* tryagain.png */; };
 		F7A722DF18D5B34F000B0EEE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A722DE18D5B34F000B0EEE /* Foundation.framework */; };
@@ -77,6 +78,7 @@
 		F73DFA5D18D5BFD70057C964 /* PopupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupVC.m; sourceTree = "<group>"; };
 		F73DFA5E18D5BFD70057C964 /* PopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupVC.xib; sourceTree = "<group>"; };
 		F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		F758FEA818D9AF3B00A56B6A /* redcross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redcross@2x.png"; sourceTree = "<group>"; };
 		F79BE10918D8524B008725E4 /* fbshare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fbshare.png; sourceTree = "<group>"; };
 		F79BE10B18D855F6008725E4 /* tryagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tryagain.png; sourceTree = "<group>"; };
 		F7A722DB18D5B34F000B0EEE /* NextNum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NextNum.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,6 +250,7 @@
 		F7BED35918D5BA040002A625 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				F758FEA818D9AF3B00A56B6A /* redcross@2x.png */,
 				F79BE10B18D855F6008725E4 /* tryagain.png */,
 				F79BE10918D8524B008725E4 /* fbshare.png */,
 				F7A7231818D5B42C000B0EEE /* numViewDark@2x.png */,
@@ -336,6 +339,7 @@
 			files = (
 				F7A7231D18D5B42C000B0EEE /* numViewDark@2x.png in Resources */,
 				F7A7231E18D5B42C000B0EEE /* numViewLight@2x.png in Resources */,
+				F758FEA918D9AF3B00A56B6A /* redcross@2x.png in Resources */,
 				F7A722F718D5B34F000B0EEE /* Images.xcassets in Resources */,
 				F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */,
 				F7A722E918D5B34F000B0EEE /* InfoPlist.strings in Resources */,

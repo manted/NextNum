@@ -37,6 +37,13 @@
 @property (nonatomic, strong) UILabel *persenalLabel;
 @property (nonatomic, strong) UILabel *worldLabel;
 
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) UILabel *timeLabel;
+//@property (nonatomic) int timeLimit;
+//@property (nonatomic) int currentTime;
+@property (nonatomic) int decisecond;
+@property (nonatomic) int second;
+
 @end
 
 @implementation ViewController
@@ -48,10 +55,10 @@
     [self.view addSubview:self.persenalLabel];
     [self.view addSubview:self.worldLabel];
     [self.view addSubview:self.containerView];
+    [self.view addSubview:self.timeLabel];
     [self addNumberViews];
     self.currentNumber = INITIAL_NUMBER;
     [self setNumber];
-
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -80,9 +87,11 @@
     if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
         [self.persenalLabel setTextAlignment:ALIGN_CENTER];
         [self.worldLabel setTextAlignment:ALIGN_CENTER];
+        [self.timeLabel setTextAlignment:ALIGN_CENTER];
     }else{
         [self.persenalLabel setTextAlignment:ALIGN_CENTER];
         [self.worldLabel setTextAlignment:ALIGN_CENTER];
+        [self.timeLabel setTextAlignment:ALIGN_CENTER];
     }
 }
 
@@ -168,6 +177,19 @@
     return _worldLabel;
 }
 
+-(UILabel*)timeLabel
+{
+    if (!_timeLabel) {
+        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 70, 160, 30)];
+        [_timeLabel setAdjustsFontSizeToFitWidth:YES];
+        [_timeLabel setBackgroundColor:[UIColor clearColor]];
+        [_timeLabel setTextColor:[UIColor redColor]];
+        [_timeLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
+        [_timeLabel setText:@"Time Remaining"];
+    }
+    return _timeLabel;
+}
+
 -(void)updateWorldRecord:(int)record
 {
     self.worldRecord = record;
@@ -231,6 +253,7 @@
         }
         self.currentNumber++;
         [self setNumber];
+        [self setTime];
     }else{
         [self gameOver];
     }
@@ -250,7 +273,10 @@
 
 -(void)gameOver
 {
-    NSLog(@"game over");
+//    NSLog(@"game over");
+    [self.timer invalidate];
+    self.timer = nil;
+    
     int score = self.currentNumber - 1;
 
     if (score > [self.persenalRecord.persenalRecord intValue]) {
@@ -302,6 +328,64 @@
         [view setNumber:0];
     }
     [self setNumber];
+    [self.timeLabel setText:@"Time Remaining"];
+}
+
+-(void)setTime
+{
+    float timeLimit = [self getTimeLimit];
+    self.second = (int)timeLimit;
+    self.decisecond = [self getDecimalPartOfFloat:timeLimit - self.second];
+//    NSLog(@"%f, %d, %d",timeLimit,self.second,self.decisecond);
+
+    if ([self.timer isValid]) {
+        [self.timer invalidate];
+    }
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                              target:self
+                                            selector:@selector(tick)
+                                            userInfo:nil
+                                             repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+
+//    [self.timer fire];
+}
+
+-(void)tick
+{
+//    NSLog(@"start timing");
+    if (self.decisecond == 0) {
+        if (self.second > 0) {
+            self.decisecond = 9;
+            self.second = self.second - 1;
+        }else{
+            [self gameOver];
+        }
+    }else{
+        self.decisecond = self.decisecond - 1;
+    }
+    [self updateTimeLabelText];
+}
+
+-(float)getTimeLimit
+{
+    float time = 5.0f * log2f(100.0f / self.currentNumber) / log2f(10.0f);
+    float minTime = 1.0f;
+    if (time < minTime) {
+        time = minTime;
+    }
+    return time;
+}
+
+-(void)updateTimeLabelText
+{
+    [self.timeLabel setText:[NSString stringWithFormat:@"%d:%d",self.second,self.decisecond]];
+}
+
+-(int)getDecimalPartOfFloat:(float)num
+{
+    return (int)(num * 10.0f);
 }
 
 - (UIImage *) imageWithView:(UIView *)view

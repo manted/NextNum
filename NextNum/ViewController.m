@@ -12,14 +12,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
 
-#define IPHONE_6_0 (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0)
-
-#ifdef IPHONE_6_0
-# define ALIGN_CENTER NSTextAlignmentCenter
-#else
-# define ALIGN_CENTER UITextAlignmentCenter
-#endif
-
 @interface ViewController ()
 
 @property (nonatomic, strong) NSMutableArray *array;

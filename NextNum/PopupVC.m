@@ -10,9 +10,9 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface PopupVC ()
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (strong, nonatomic) UILabel *scoreLabel;
 @property (nonatomic) int score;
-@property (weak, nonatomic) IBOutlet UIImageView *imgV;
+//@property (weak, nonatomic) IBOutlet UIImageView *imgV;
 
 @end
 
@@ -36,8 +36,15 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.view addSubview:self.scoreLabel];
     [self.scoreLabel setText:[NSString stringWithFormat:@"%d",self.score]];
-    self.imgV.image = self.img;
+    if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
+        [self.scoreLabel setTextAlignment:ALIGN_CENTER];
+    }else{
+        [self.scoreLabel setTextAlignment:ALIGN_CENTER];
+    }
+
+//    self.imgV.image = self.img;
 }
 
 //-(void)setImg:(UIImage *)img
@@ -45,6 +52,18 @@
 //    self.img = img;
 //    self.imgV.image = self.img;
 //}
+
+-(UILabel*)scoreLabel
+{
+    if (!_scoreLabel) {
+        _scoreLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, 210, 40)];
+        [_scoreLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:40]];
+        [_scoreLabel setAdjustsFontSizeToFitWidth:YES];
+        [_scoreLabel setBackgroundColor:[UIColor clearColor]];
+        [_scoreLabel setTextColor:[UIColor redColor]];
+    }
+    return _scoreLabel;
+}
 
 -(void)setFinalScore:(int)score
 {
@@ -95,12 +114,12 @@
     }
 }
 
--(void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-{
-    _managedObjectContext = managedObjectContext;
-    
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Record"];
-    request.predicate = nil;
-
-}
+//-(void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+//{
+//    _managedObjectContext = managedObjectContext;
+//    
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Record"];
+//    request.predicate = nil;
+//
+//}
 @end

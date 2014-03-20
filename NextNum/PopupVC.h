@@ -17,7 +17,7 @@
 @property (nonatomic, strong) ViewController *vc;
 @property (nonatomic, strong) UIImage *img;
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+//@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 -(void)setFinalScore:(int)score;
 -(void)setImg:(UIImage *)img;

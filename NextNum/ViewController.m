@@ -208,7 +208,7 @@
 {
     if (!_containerView) {
         _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 100, 320, 320)];
-//        [_containerView setUserInteractionEnabled:NO];
+        _containerView.backgroundColor = [UIColor colorWithRed:187.0f/255.0f green:173.0f/255.0f blue:158.0f/255.0f alpha:1];
     }
     return _containerView;
 }
@@ -262,7 +262,6 @@
             [view showRedCross];
             [self gameOver];
         }
-
     }
 }
 
@@ -273,17 +272,18 @@
         if ([view getNumber] + 2 != self.currentNumber) {
             [view showRedCross];
             [self gameOver];
-        }else{
             
+        }else{
+            [view clearNumber];
         }
-        //    [view clearNumber];
     }
-    
 }
 
 -(void)gameOver
 {
 //    NSLog(@"game over");
+    [self disableViews];
+    
     self.isOver = YES;
     
     [self.timer invalidate];
@@ -322,7 +322,20 @@
     UIImage *img = [self imageWithView:self.containerView];
     popup.img = img;
     [self presentPopupViewController:popup animated:YES completion:nil];
-    
+}
+
+-(void)disableViews
+{
+    for (NumberView *view in self.array) {
+        [view setUserInteractionEnabled:NO];
+    }
+}
+
+-(void)enableViews
+{
+    for (NumberView *view in self.array) {
+        [view setUserInteractionEnabled:YES];
+    }
 }
 
 -(BOOL)isOver
@@ -333,7 +346,9 @@
 -(void)tryAgain
 {
     if (self.popupViewController != nil) {
-        [self dismissPopupViewControllerAnimated:YES completion:nil];
+        [self dismissPopupViewControllerAnimated:YES completion:^(){
+            [self enableViews];
+        }];
     }
     [self reset];
 }

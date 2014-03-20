@@ -24,10 +24,17 @@
 @property (nonatomic, strong) UIImage *imgDark;
 @property (nonatomic, strong) UIImage *imgLight;
 @property (nonatomic, strong) UIImageView *redCrossView;
+@property (nonatomic, strong) UIImage *crossImg;
 
 @property (nonatomic) BOOL isTouching;
 
-@property (nonatomic, strong) UITapGestureRecognizer *recognizer;
+//@property (nonatomic, strong) UITapGestureRecognizer *recognizer;
+
+@property (nonatomic, strong) UIView *backView;
+@property (nonatomic, strong) UIView *frontView;
+
+@property (nonatomic, strong) UIImageView *backImgV;
+@property (nonatomic, strong) UIImage *backImg;
 
 @end
 
@@ -46,15 +53,11 @@
         }
         [self.numLabel setTextAlignment:NSTextAlignmentCenter];
         
+        [self addSubview:self.frontView];
+        [self addSubview:self.backView];
+        
         [self.imgV setImage:self.imgDark];
-        [self addSubview:self.imgV];
-        [self addSubview:self.numLabel];
 
-        UIImage *img = [UIImage imageNamed:@"redcross"];
-        self.redCrossView.image = img;
-        [self addSubview:self.redCrossView];
-        [self hideRedCross];
-//        [self setUserInteractionEnabled:YES];
     }
     return self;
 }
@@ -97,12 +100,57 @@
     return color;
 }
 
+-(UIView*)frontView
+{
+    if (!_frontView) {
+        _frontView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+        [_frontView addSubview:self.imgV];
+        [_frontView addSubview:self.numLabel];
+    }
+    return _frontView;
+}
+
+-(UIView*)backView
+{
+    if (!_backView) {
+        _backView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+        [_backView addSubview:self.backImgV];
+    }
+    return _backView;
+}
+
+-(UIImageView*)backImgV
+{
+    if (!_backImgV) {
+        _backImgV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+        [_backImgV setImage:self.backImg];
+    }
+    return _backImgV;
+}
+
+-(UIImage*)backImg
+{
+    if (!_backImg) {
+        _backImg = [UIImage imageNamed:@"numViewDark"];
+    }
+    return _backImg;
+}
+
 -(UIImageView*)redCrossView
 {
     if (!_redCrossView) {
         _redCrossView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+        [_redCrossView setImage:self.crossImg];
     }
     return _redCrossView;
+}
+
+-(UIImage*)crossImg
+{
+    if (!_crossImg) {
+        _crossImg = [UIImage imageNamed:@"redcross"];
+    }
+    return _crossImg;
 }
 
 -(UIImageView*)imgV
@@ -131,6 +179,7 @@
 
 -(void)setNumber:(int)number
 {
+    int temp = _number;
     _number = number;
     if (number == EMPTY_NUMBER) {
         [self.numLabel setText:@""];
@@ -139,6 +188,9 @@
         [self.numLabel setText:[NSString stringWithFormat:@"%d",number]];
         [self.imgV setImage:self.imgLight];
         [self.numLabel setTextColor:[self getColor]];
+    }
+    if (temp != self.number) {
+        [self flip];
     }
 }
 
@@ -150,8 +202,6 @@
 -(void)clearNumber
 {
     self.number = EMPTY_NUMBER;
-    [self.imgV setImage:self.imgDark];
-    self.isTouching = NO;
 }
 
 -(BOOL)isTouching
@@ -171,7 +221,8 @@
     NSLog(@"end number = %d", self.number);
     self.isTouching = NO;
     [self.vc endTouchingNumber:self];
-    [self clearNumber];
+//    [self clearNumber];
+    self.isTouching = NO;
 }
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
@@ -192,14 +243,30 @@
     return self.number == EMPTY_NUMBER;
 }
 
--(void)showRedCross
-{
-    self.redCrossView.hidden = NO;
-}
-
 -(void)hideRedCross
 {
-    self.redCrossView.hidden = YES;
+    [self.redCrossView removeFromSuperview];
+}
+
+-(void)showRedCross
+{
+    [self addSubview:self.redCrossView];
+}
+
+- (void)flip
+{
+    if (self.number == EMPTY_NUMBER) {
+        [UIView transitionFromView:self.frontView toView:self.backView
+                          duration:0.5
+                           options:UIViewAnimationOptionTransitionFlipFromLeft
+                        completion:NULL];
+    }
+    else {
+        [UIView transitionFromView:self.backView toView:self.frontView
+                          duration:0.5
+                           options:UIViewAnimationOptionTransitionFlipFromLeft
+                        completion:NULL];
+    }
 }
 
 @end

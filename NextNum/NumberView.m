@@ -58,6 +58,7 @@
         
         [self.imgV setImage:self.imgDark];
 
+        self.isWrongNumber = NO;
     }
     return self;
 }
@@ -141,6 +142,7 @@
     if (!_redCrossView) {
         _redCrossView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
         [_redCrossView setImage:self.crossImg];
+        [_redCrossView setAlpha:0.5f];
     }
     return _redCrossView;
 }
@@ -257,13 +259,13 @@
 {
     if (self.number == EMPTY_NUMBER) {
         [UIView transitionFromView:self.frontView toView:self.backView
-                          duration:0.5
+                          duration:0.2
                            options:UIViewAnimationOptionTransitionFlipFromLeft
                         completion:NULL];
     }
     else {
         [UIView transitionFromView:self.backView toView:self.frontView
-                          duration:0.5
+                          duration:0.2
                            options:UIViewAnimationOptionTransitionFlipFromLeft
                         completion:NULL];
     }

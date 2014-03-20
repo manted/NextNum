@@ -36,6 +36,7 @@
 
 @property (nonatomic, strong) UILabel *persenalLabel;
 @property (nonatomic, strong) UILabel *worldLabel;
+@property (nonatomic, strong) UIActivityIndicatorView *indicator;
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UILabel *timeLabel;
@@ -76,13 +77,17 @@
     [self.persenalLabel setText:[NSString stringWithFormat:@"Best: "]];
     [self.worldLabel setText:[NSString stringWithFormat:@"WR: ?"]];
     
+    [self.view addSubview:self.indicator];
+    
     // get world record from Parse
     PFQuery *query = [PFQuery queryWithClassName:@"WR"];
+    [self.indicator startAnimating];
     [query getObjectInBackgroundWithId:@"f2V7qDto9G" block:^(PFObject *worldRecord, NSError *error) {
         int wr = [[worldRecord objectForKey:@"record"] intValue];
 //        NSLog(@"%d", wr);
         self.wrObject = worldRecord;
         [self updateWorldRecord:wr];
+        [self.indicator stopAnimating];
     }];
     
     if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
@@ -154,6 +159,15 @@
         _array = [[NSMutableArray alloc]init];
     }
     return _array;
+}
+
+-(UIActivityIndicatorView*)indicator
+{
+    if (!_indicator) {
+        _indicator = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(280, 51, 22, 22)];
+        [_indicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
+    }
+    return _indicator;
 }
 
 -(UILabel*)persenalLabel
@@ -228,11 +242,42 @@
 
 -(void)setNumber
 {
-    int x = arc4random() % 16;
-    while ([(NumberView*)[self.array objectAtIndex:x]isEmpty] == NO) {
-        x = arc4random() % 16;
+    int current10 = (int)self.currentNumber / 10.0f;
+    if (current10 > 15) {
+        current10 = 15;
     }
-    [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
+    [self setNumberToViewsOf:current10 + 1];
+}
+
+-(void)setNumberToViewsOf:(int)num
+{
+    while (num > 0) {
+        int x = arc4random() % 16;
+        while ([(NumberView*)[self.array objectAtIndex:x]isEmpty] == NO) {
+            x = arc4random() % 16;
+        }
+        if (num == 1) {
+            [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
+        }else{
+            int wrongNum = arc4random() % 21 - 10;
+            while (wrongNum == 0) {
+                wrongNum = arc4random() % 21 - 10;
+            }
+            [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
+            [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
+        }
+        num = num - 1;
+    }
+}
+
+-(void)clearWrongNumbers
+{
+    for (NumberView *view in self.array) {
+        if (view.isWrongNumber) {
+            [view setNumber:0];
+            [view setIsWrongNumber:NO];
+        }
+    }
 }
 
 -(int)numberOfTouching
@@ -250,6 +295,7 @@
 {
     if (self.isOver == NO) {
         if ([view getNumber] == self.currentNumber) {
+            [self clearWrongNumbers];
             //update persenal record immidiately
             if (self.currentNumber > [self.persenalRecord.persenalRecord intValue]) {
                 self.persenalRecord.persenalRecord = [NSNumber numberWithInt:self.currentNumber];
@@ -307,10 +353,12 @@
                 NSLog(@"######");
                 [self updateWorldRecord:score];
             }else{
+                [self.indicator startAnimating];
                 [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
                     int latestWR = [[object objectForKey:@"record"] intValue];
                     self.wrObject = object;
                     [self updateWorldRecord:latestWR];
+                    [self.indicator stopAnimating];
                 }];
             }
         }];
@@ -404,7 +452,7 @@
 
 -(float)getTimeLimit
 {
-    float time = 5.0f * log2f(100.0f / self.currentNumber) / log2f(10.0f);
+    float time = 4.0f * log2f(300.0f / self.currentNumber) / log2f(10.0f);
     float minTime = 1.0f;
     if (time < minTime) {
         time = minTime;

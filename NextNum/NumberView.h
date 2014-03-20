@@ -14,6 +14,7 @@
 @interface NumberView : UIView
 
 @property (nonatomic,strong) ViewController *vc;
+@property (nonatomic) BOOL isWrongNumber;
 
 -(void)setNumber:(int)number;
 -(int)getNumber;

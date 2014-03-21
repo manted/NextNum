@@ -30,7 +30,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -99,27 +98,9 @@
     } else {
         // The user doesn't have the Facebook for iOS app installed.  You
         // may be able to use a fallback.
-        NSLog(@"upload using request");
-        
-        FBRequest *request = [FBRequest requestForUploadPhoto:self.img];
-        FBRequestConnection *connection = [[FBRequestConnection alloc]initWithTimeout:100];
-        [connection addRequest:request completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            if (!error) {
-                NSLog(@"success");
-            }else{
-                NSLog(@"Error: %@",error.description);
-            }
-        }];
-        [connection start];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"You may need to install the latest version of Facebook" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
     }
 }
 
-//-(void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
-//{
-//    _managedObjectContext = managedObjectContext;
-//    
-//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Record"];
-//    request.predicate = nil;
-//
-//}
 @end

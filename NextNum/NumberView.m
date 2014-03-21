@@ -230,13 +230,14 @@
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     NSLog(@"touches cancelled");
-    if ([self.vc isOver] == NO) {
-        NSLog(@"touches cancelled numbeb of touching: %d",[self.vc numberOfTouching]);
-        if ([self.vc numberOfTouching] >= 2) {
-            NSLog(@"touches cancelled 2");
-            [self.vc gameOver];
-        }
-    }
+    [self.vc gameOver];
+//    if ([self.vc isOver] == NO) {
+//        NSLog(@"touches cancelled numbeb of touching: %d",[self.vc numberOfTouching]);
+//        if ([self.vc numberOfTouching] >= 2) {
+//            NSLog(@"touches cancelled 2");
+//            [self.vc gameOver];
+//        }
+//    }
     self.isTouching = NO;
 }
 

@@ -95,6 +95,7 @@
     self.isOver = NO;
 }
 
+#pragma mark - Core Data
 -(void)setManagedDocument:(UIManagedDocument *)managedDocument
 {
     if (!_managedDocument) {
@@ -145,6 +146,7 @@
     }
 }
 
+#pragma mark - views array
 -(NSArray*)array
 {
     if (!_array) {
@@ -153,6 +155,7 @@
     return _array;
 }
 
+#pragma mark - UI elements
 -(UIActivityIndicatorView*)indicator
 {
     if (!_indicator) {
@@ -199,6 +202,11 @@
     return _timeLabel;
 }
 
+-(void)updateTimeLabelText
+{
+    [self.timeLabel setText:[NSString stringWithFormat:@"%d:%d",self.second,self.decisecond]];
+}
+
 -(void)updateWorldRecord:(int)record
 {
     self.worldRecord = record;
@@ -230,6 +238,146 @@
             [self.array addObject:numView];
         }
     }
+}
+
+#pragma mark - handle touch events
+-(void)beginTouchingNumber:(NumberView*)view
+{
+    if (self.isOver == NO) {
+        if([self numberOfTouching] > 2){ // use more than 2 fingers
+            [view showRedCross];
+            [self gameOver];
+        }else{
+            if ([view getNumber] == self.currentNumber) {
+                [self clearWrongNumbers];
+                //update persenal record immidiately
+                if (self.currentNumber > [self.persenalRecord.persenalRecord intValue]) {
+                    self.persenalRecord.persenalRecord = [NSNumber numberWithInt:self.currentNumber];
+                    [self updatePersenalRecordLabel:self.currentNumber];
+                }
+                self.currentNumber++;
+                [self setNumber];
+                [self setTime];
+            }else{ // press wrong number
+                [view showRedCross];
+                [self gameOver];
+            }
+        }
+    }
+}
+
+-(void)endTouchingNumber:(NumberView*)view
+{
+//    NSLog(@"end touching number = %d, current number = %d", [view getNumber],self.currentNumber);
+    if (self.isOver == NO) {
+        if ([view getNumber] + 2 != self.currentNumber) { // release wrong number
+            [view showRedCross];
+            [self gameOver];
+        }else{
+            [view clearNumber];
+        }
+    }
+}
+
+#pragma mark - game over
+-(void)gameOver
+{
+//    NSLog(@"game over");
+    [self disableViews];
+    
+    self.isOver = YES;
+    
+    [self.timer invalidate];
+    self.timer = nil;
+    
+    int score = self.currentNumber - 1;
+
+    if (score > [self.persenalRecord.persenalRecord intValue]) {
+        self.persenalRecord.persenalRecord = [NSNumber numberWithInt:score];
+        [self updatePersenalRecordLabel:score];
+    }
+    
+    if (score > self.worldRecord) {
+        [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
+        [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                NSLog(@"******%@",error.description);
+            }
+            if (succeeded) {
+                NSLog(@"######");
+                [self updateWorldRecord:score];
+            }else{
+                [self.indicator startAnimating];
+                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+                    int latestWR = [[object objectForKey:@"record"] intValue];
+                    self.wrObject = object;
+                    [self updateWorldRecord:latestWR];
+                    [self.indicator stopAnimating];
+                }];
+            }
+        }];
+    }
+    
+    PopupVC *popup = [[PopupVC alloc] initWithNibName:@"PopupVC" bundle:nil];
+    popup.vc = self;
+    [popup setFinalScore:score];
+    UIImage *img = [self imageWithView:self.containerView];
+    popup.img = img;
+    [self presentPopupViewController:popup animated:YES completion:nil];
+}
+
+#pragma mark - helper methods
+-(void)disableViews
+{
+    for (NumberView *view in self.array) {
+        [view setUserInteractionEnabled:NO];
+    }
+}
+
+-(void)enableViews
+{
+    for (NumberView *view in self.array) {
+        [view setUserInteractionEnabled:YES];
+    }
+}
+
+-(int)numberOfTouching
+{
+    int count = 0;
+    for (NumberView *view in self.array) {
+        if ([view isTouching]) {
+            count++;
+        }
+    }
+    return count;
+}
+
+-(BOOL)isOver
+{
+    return _isOver;
+}
+
+#pragma mark - try again
+-(void)tryAgain
+{
+    if (self.popupViewController != nil) {
+        [self dismissPopupViewControllerAnimated:YES completion:^(){
+            [self enableViews];
+        }];
+    }
+    [self reset];
+}
+
+-(void)reset
+{
+    self.currentNumber = INITIAL_NUMBER;
+    for (NumberView *view in self.array) {
+        [view setNumber:0];
+        [view hideRedCross];
+    }
+    [self setNumber];
+    [self.timeLabel setText:@"Time Remaining"];
+    self.isOver = NO;
 }
 
 -(void)setNumber
@@ -272,139 +420,7 @@
     }
 }
 
--(int)numberOfTouching
-{
-    int count = 0;
-    for (NumberView *view in self.array) {
-        if ([view isTouching]) {
-            count++;
-        }
-    }
-    return count;
-}
-
--(void)beginTouchingNumber:(NumberView*)view
-{
-    if (self.isOver == NO) {
-        if ([view getNumber] == self.currentNumber) {
-            [self clearWrongNumbers];
-            //update persenal record immidiately
-            if (self.currentNumber > [self.persenalRecord.persenalRecord intValue]) {
-                self.persenalRecord.persenalRecord = [NSNumber numberWithInt:self.currentNumber];
-                [self updatePersenalRecordLabel:self.currentNumber];
-            }
-            self.currentNumber++;
-            [self setNumber];
-            [self setTime];
-        }else{
-            [view showRedCross];
-            [self gameOver];
-        }
-    }
-}
-
--(void)endTouchingNumber:(NumberView*)view
-{
-//    NSLog(@"end touching number = %d, current number = %d", [view getNumber],self.currentNumber);
-    if (self.isOver == NO) {
-        if ([view getNumber] + 2 != self.currentNumber) {
-            [view showRedCross];
-            [self gameOver];
-            
-        }else{
-            [view clearNumber];
-        }
-    }
-}
-
--(void)gameOver
-{
-//    NSLog(@"game over");
-    [self disableViews];
-    
-    self.isOver = YES;
-    
-    [self.timer invalidate];
-    self.timer = nil;
-    
-    int score = self.currentNumber - 1;
-
-    if (score > [self.persenalRecord.persenalRecord intValue]) {
-        self.persenalRecord.persenalRecord = [NSNumber numberWithInt:score];
-        [self updatePersenalRecordLabel:score];
-    }
-    
-    if (score > self.worldRecord) {
-//        self.wrObject[@"record"] = @score;
-        [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
-        [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (error) {
-                NSLog(@"******%@",error.description);
-            }
-            if (succeeded) {
-                NSLog(@"######");
-                [self updateWorldRecord:score];
-            }else{
-                [self.indicator startAnimating];
-                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                    int latestWR = [[object objectForKey:@"record"] intValue];
-                    self.wrObject = object;
-                    [self updateWorldRecord:latestWR];
-                    [self.indicator stopAnimating];
-                }];
-            }
-        }];
-    }
-    
-    PopupVC *popup = [[PopupVC alloc] initWithNibName:@"PopupVC" bundle:nil];
-    popup.vc = self;
-    [popup setFinalScore:score];
-    UIImage *img = [self imageWithView:self.containerView];
-    popup.img = img;
-    [self presentPopupViewController:popup animated:YES completion:nil];
-}
-
--(void)disableViews
-{
-    for (NumberView *view in self.array) {
-        [view setUserInteractionEnabled:NO];
-    }
-}
-
--(void)enableViews
-{
-    for (NumberView *view in self.array) {
-        [view setUserInteractionEnabled:YES];
-    }
-}
-
--(BOOL)isOver
-{
-    return _isOver;
-}
-
--(void)tryAgain
-{
-    if (self.popupViewController != nil) {
-        [self dismissPopupViewControllerAnimated:YES completion:^(){
-            [self enableViews];
-        }];
-    }
-    [self reset];
-}
-
--(void)reset
-{
-    self.currentNumber = INITIAL_NUMBER;
-    for (NumberView *view in self.array) {
-        [view setNumber:0];
-        [view hideRedCross];
-    }
-    [self setNumber];
-    [self.timeLabel setText:@"Time Remaining"];
-    self.isOver = NO;
-}
-
+#pragma mark - time
 -(void)setTime
 {
     float timeLimit = [self getTimeLimit];
@@ -422,8 +438,6 @@
                                             userInfo:nil
                                              repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-
-//    [self.timer fire];
 }
 
 -(void)tick
@@ -452,16 +466,12 @@
     return time;
 }
 
--(void)updateTimeLabelText
-{
-    [self.timeLabel setText:[NSString stringWithFormat:@"%d:%d",self.second,self.decisecond]];
-}
-
 -(int)getDecimalPartOfFloat:(float)num
 {
     return (int)(num * 10.0f);
 }
 
+#pragma mark - create image from uiview
 - (UIImage *) imageWithView:(UIView *)view
 {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);

@@ -56,6 +56,7 @@
     [self addNumberViews];
     self.currentNumber = INITIAL_NUMBER;
     [self setNumber];
+    [self setTime2];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -95,7 +96,7 @@
         [self.timeLabel setTextAlignment:ALIGN_CENTER];
     }
     
-    self.isOver = NO;
+    self.isOver = YES;
 }
 
 #pragma mark - Core Data
@@ -200,7 +201,7 @@
         [_timeLabel setBackgroundColor:[UIColor clearColor]];
         [_timeLabel setTextColor:[UIColor redColor]];
         [_timeLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
-        [_timeLabel setText:@"Time Remaining"];
+//        [_timeLabel setText:@"Time Remaining"];
     }
     return _timeLabel;
 }
@@ -235,7 +236,6 @@
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             NumberView *numView = [[NumberView alloc]initWithFrame:CGRectMake(i * 80, j * 80, 80, 80)];
-//            [numView setNumber:i * 4 + j];
             numView.vc = self;
             [self.containerView addSubview:numView];
             [self.array addObject:numView];
@@ -382,13 +382,12 @@
 {
     self.currentNumber = INITIAL_NUMBER;
     for (NumberView *view in self.array) {
-//        [view rotateBack];
         [view clearNumber];
         [view hideRedCross];
-        
     }
     [self setNumber];
-    [self.timeLabel setText:@"Time Remaining"];
+    [self setTime2];
+//    [self.timeLabel setText:@"Time Remaining"];
 //    self.isOver = NO;
 }
 
@@ -409,7 +408,7 @@
             x = arc4random() % 16;
         }
         if (num == 1) {
-            if (self.currentNumber > 50) {
+            if (self.currentNumber > 50) { // begin rotate
                 [(NumberView*)[self.array objectAtIndex:x] rotate];
                 [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
             }else{
@@ -421,7 +420,7 @@
             while (wrongNum == 0) {
                 wrongNum = arc4random() % 21 - 10;
             }
-            if (self.currentNumber > 50) {
+            if (self.currentNumber > 50) { // begin rotate
                 [(NumberView*)[self.array objectAtIndex:x] rotate];
                 [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
                 [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
@@ -450,7 +449,7 @@
 -(void)begin
 {
     self.isOver = NO;
-    [self setTime2];
+//    [self setTime2];
     self.timer2 = [NSTimer scheduledTimerWithTimeInterval:0.1
                                                   target:self
                                                 selector:@selector(tick)
@@ -463,19 +462,20 @@
 {
     self.second = 10;
     self.decisecond = 0;
+    [self updateTimeLabelText];
 }
 
 -(void)addTime
 {
     if (self.currentNumber < 40) {
         self.second = self.second + 1;
-        self.decisecond = self.decisecond + 5;
+        self.decisecond = self.decisecond + 2;
     }else if (self.currentNumber < 80) {
         self.second = self.second + 1;
-        self.decisecond = self.decisecond + 2;
+        self.decisecond = self.decisecond + 4;
     }else{
-//        self.second = self.second + 1;
-        self.decisecond = self.decisecond + 9;
+        self.second = self.second + 1;
+        self.decisecond = self.decisecond + 6;
     }
 }
 

@@ -8,11 +8,13 @@
 
 #import "PopupVC.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "WXApi.h"
 
 @interface PopupVC ()
 @property (strong, nonatomic) UILabel *scoreLabel;
 @property (nonatomic) int score;
 //@property (weak, nonatomic) IBOutlet UIImageView *imgV;
+@property (weak, nonatomic) IBOutlet UIButton *wechatButton;
 
 @end
 
@@ -42,8 +44,6 @@
     }else{
         [self.scoreLabel setTextAlignment:ALIGN_CENTER];
     }
-
-//    self.imgV.image = self.img;
 }
 
 //-(void)setImg:(UIImage *)img
@@ -55,7 +55,7 @@
 -(UILabel*)scoreLabel
 {
     if (!_scoreLabel) {
-        _scoreLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, 210, 40)];
+        _scoreLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, 120, 40)];
         [_scoreLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:40]];
         [_scoreLabel setAdjustsFontSizeToFitWidth:YES];
         [_scoreLabel setBackgroundColor:[UIColor clearColor]];
@@ -101,6 +101,38 @@
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"You may need to install the latest version of Facebook" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
     }
+}
+
+- (IBAction)shareToWeChat:(id)sender {
+    if ([WXApi isWXAppInstalled]) {
+        if ([WXApi isWXAppSupportApi]) {
+            [self sendImageContent];
+        }else{
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"YYou may need to install the latest version of WeChat" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"You need to install WeChat first" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } 
+}
+
+- (void) sendImageContent
+{
+    WXMediaMessage *message = [WXMediaMessage message];
+    
+    WXImageObject *ext = [WXImageObject object];
+
+    ext.imageData = UIImagePNGRepresentation(self.img);
+    
+    message.mediaObject = ext;
+    
+    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = message;
+    req.scene = WXSceneTimeline;
+    
+    [WXApi sendReq:req];
 }
 
 @end

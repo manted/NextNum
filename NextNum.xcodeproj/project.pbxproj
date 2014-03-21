@@ -21,6 +21,7 @@
 		F70A7F0018D6D6E90027879C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F70A7EFF18D6D6E90027879C /* Security.framework */; };
 		F70A7F0418D6D6F70027879C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F70A7F0318D6D6F70027879C /* SystemConfiguration.framework */; };
 		F715C31C18DC613C00D133BF /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F715C31918DC613C00D133BF /* libWeChatSDK.a */; };
+		F715C31E18DC714300D133BF /* wechatshare.png in Resources */ = {isa = PBXBuildFile; fileRef = F715C31D18DC714300D133BF /* wechatshare.png */; };
 		F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F73DFA5D18D5BFD70057C964 /* PopupVC.m */; };
 		F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F73DFA5E18D5BFD70057C964 /* PopupVC.xib */; };
 		F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */; };
@@ -76,6 +77,7 @@
 		F715C31918DC613C00D133BF /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		F715C31A18DC613C00D133BF /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		F715C31B18DC613C00D133BF /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		F715C31D18DC714300D133BF /* wechatshare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wechatshare.png; sourceTree = "<group>"; };
 		F73DFA5C18D5BFD70057C964 /* PopupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupVC.h; sourceTree = "<group>"; };
 		F73DFA5D18D5BFD70057C964 /* PopupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupVC.m; sourceTree = "<group>"; };
 		F73DFA5E18D5BFD70057C964 /* PopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupVC.xib; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 		F7BED35918D5BA040002A625 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				F715C31D18DC714300D133BF /* wechatshare.png */,
 				F758FEA818D9AF3B00A56B6A /* redcross@2x.png */,
 				F79BE10B18D855F6008725E4 /* tryagain.png */,
 				F79BE10918D8524B008725E4 /* fbshare.png */,
@@ -362,6 +365,7 @@
 				F758FEA918D9AF3B00A56B6A /* redcross@2x.png in Resources */,
 				F7A722F718D5B34F000B0EEE /* Images.xcassets in Resources */,
 				F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */,
+				F715C31E18DC714300D133BF /* wechatshare.png in Resources */,
 				F7A722E918D5B34F000B0EEE /* InfoPlist.strings in Resources */,
 				F79BE10A18D8524B008725E4 /* fbshare.png in Resources */,
 				F79BE10C18D855F6008725E4 /* tryagain.png in Resources */,

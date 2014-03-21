@@ -37,3 +37,9 @@ Pods
 Parse.framework
 
 NextNum/AppDelegate.m
+
+NextNum/WXApi.h
+
+NextNum/WXApiObject.h
+
+NextNum/libWeChatSDK.a

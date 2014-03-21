@@ -38,6 +38,9 @@
 
 @property (nonatomic) BOOL isOver;
 
+//time 2
+@property (nonatomic) NSTimer *timer2;
+
 @end
 
 @implementation ViewController
@@ -243,12 +246,19 @@
 #pragma mark - handle touch events
 -(void)beginTouchingNumber:(NumberView*)view
 {
+    // time 2
+    if (self.isOver == YES && self.currentNumber == 1){
+        [self begin];
+    }
+    
     if (self.isOver == NO) {
         if([self numberOfTouching] > 2){ // use more than 2 fingers
             [view showRedCross];
             [self gameOver];
         }else{
             if ([view getNumber] == self.currentNumber) {
+                [self addTime];
+                
                 [self clearWrongNumbers];
                 //update persenal record immidiately
                 if (self.currentNumber > [self.persenalRecord.persenalRecord intValue]) {
@@ -257,7 +267,7 @@
                 }
                 self.currentNumber++;
                 [self setNumber];
-                [self setTime];
+//                [self setTime];
             }else{ // press wrong number
                 [view showRedCross];
                 [self gameOver];
@@ -287,8 +297,8 @@
     
     self.isOver = YES;
     
-    [self.timer invalidate];
-    self.timer = nil;
+    [self.timer2 invalidate];
+    self.timer2 = nil;
     
     int score = self.currentNumber - 1;
 
@@ -372,12 +382,14 @@
 {
     self.currentNumber = INITIAL_NUMBER;
     for (NumberView *view in self.array) {
-        [view setNumber:0];
+//        [view rotateBack];
+        [view clearNumber];
         [view hideRedCross];
+        
     }
     [self setNumber];
     [self.timeLabel setText:@"Time Remaining"];
-    self.isOver = NO;
+//    self.isOver = NO;
 }
 
 -(void)setNumber
@@ -397,15 +409,30 @@
             x = arc4random() % 16;
         }
         if (num == 1) {
-            [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
+            if (self.currentNumber > 50) {
+                [(NumberView*)[self.array objectAtIndex:x] rotate];
+                [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
+            }else{
+                [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
+            }
+            
         }else{
             int wrongNum = arc4random() % 21 - 10;
             while (wrongNum == 0) {
                 wrongNum = arc4random() % 21 - 10;
             }
-            [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
-            [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
+            if (self.currentNumber > 50) {
+                [(NumberView*)[self.array objectAtIndex:x] rotate];
+                [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
+                [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
+
+            }else{
+                [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
+                [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
+
+            }
         }
+        
         num = num - 1;
     }
 }
@@ -414,9 +441,41 @@
 {
     for (NumberView *view in self.array) {
         if (view.isWrongNumber) {
-            [view setNumber:0];
+            [view clearNumber];
             [view setIsWrongNumber:NO];
         }
+    }
+}
+#pragma mark - time 2
+-(void)begin
+{
+    self.isOver = NO;
+    [self setTime2];
+    self.timer2 = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                  target:self
+                                                selector:@selector(tick)
+                                                userInfo:nil
+                                                 repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer2 forMode:NSRunLoopCommonModes];
+}
+
+-(void)setTime2
+{
+    self.second = 10;
+    self.decisecond = 0;
+}
+
+-(void)addTime
+{
+    if (self.currentNumber < 40) {
+        self.second = self.second + 1;
+        self.decisecond = self.decisecond + 5;
+    }else if (self.currentNumber < 80) {
+        self.second = self.second + 1;
+        self.decisecond = self.decisecond + 2;
+    }else{
+//        self.second = self.second + 1;
+        self.decisecond = self.decisecond + 9;
     }
 }
 

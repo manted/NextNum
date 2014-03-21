@@ -25,4 +25,8 @@
 
 -(void)showRedCross;
 -(void)hideRedCross;
+
+-(void)rotate;
+-(void)rotateBack;
+//-(void)setNumber:(int)number rotate:(BOOL)rotate;
 @end

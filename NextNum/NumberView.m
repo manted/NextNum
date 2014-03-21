@@ -59,6 +59,9 @@
         [self.imgV setImage:self.imgDark];
 
         self.isWrongNumber = NO;
+        
+        self.numLabel.transform = CGAffineTransformMakeRotation(0); // init transform
+        
     }
     return self;
 }
@@ -73,6 +76,53 @@
         [_numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:60]];
     }
     return _numLabel;
+}
+
+-(void)rotate
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.0];
+    
+    int x = arc4random() % 7;
+    switch (x) {
+        case 0:
+            self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_4); // 45
+            break;
+        case 1:
+            self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_2); // 90
+            break;
+        case 2:
+            self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_4+M_PI_2); // 135
+            break;
+        case 3:
+            self.numLabel.transform = CGAffineTransformMakeRotation(M_PI); // 180
+            break;
+        case 4:
+            self.numLabel.transform = CGAffineTransformMakeRotation(-M_PI_4); // -45
+            break;
+        case 5:
+            self.numLabel.transform = CGAffineTransformMakeRotation(-M_PI_2); // -90
+            break;
+        case 6:
+            self.numLabel.transform = CGAffineTransformMakeRotation(-(M_PI_4+M_PI_2)); // -135
+            break;
+        default:
+            break;
+    }
+//    self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_4+M_PI_2);
+    
+    [UIView commitAnimations];
+}
+
+-(void)rotateBack
+{
+    CGFloat angle = [(NSNumber *)[self.numLabel valueForKeyPath:@"layer.transform.rotation.z"] floatValue];
+//    NSLog(@"%f", angle);
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.0];
+    self.numLabel.transform = CGAffineTransformRotate(self.numLabel.transform, -angle);
+    [UIView commitAnimations];
 }
 
 -(UIColor*)getColor
@@ -181,6 +231,10 @@
 
 -(void)setNumber:(int)number
 {
+//    if (rotate) {
+//        [self rotate];
+//    }
+    
     int temp = _number;
     _number = number;
     if (number == EMPTY_NUMBER) {
@@ -194,6 +248,7 @@
     if (temp != self.number) {
         [self flip];
     }
+
 }
 
 -(int)getNumber
@@ -203,6 +258,7 @@
 
 -(void)clearNumber
 {
+    [self rotateBack];
     self.number = EMPTY_NUMBER;
 }
 

@@ -43,3 +43,11 @@ NextNum/WXApi.h
 NextNum/WXApiObject.h
 
 NextNum/libWeChatSDK.a
+
+NextNum/LDProgressView.h
+
+NextNum/LDProgressView.m
+
+NextNum/UIColor+RGBValues.h
+
+NextNum/UIColor+RGBValues.m

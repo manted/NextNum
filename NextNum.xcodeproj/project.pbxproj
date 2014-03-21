@@ -26,6 +26,8 @@
 		F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F73DFA5E18D5BFD70057C964 /* PopupVC.xib */; };
 		F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */; };
 		F758FEA918D9AF3B00A56B6A /* redcross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F758FEA818D9AF3B00A56B6A /* redcross@2x.png */; };
+		F7682AFC18DD071E00F0F598 /* LDProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7682AF918DD071E00F0F598 /* LDProgressView.m */; };
+		F7682AFD18DD071E00F0F598 /* UIColor+RGBValues.m in Sources */ = {isa = PBXBuildFile; fileRef = F7682AFB18DD071E00F0F598 /* UIColor+RGBValues.m */; };
 		F79BE10A18D8524B008725E4 /* fbshare.png in Resources */ = {isa = PBXBuildFile; fileRef = F79BE10918D8524B008725E4 /* fbshare.png */; };
 		F79BE10C18D855F6008725E4 /* tryagain.png in Resources */ = {isa = PBXBuildFile; fileRef = F79BE10B18D855F6008725E4 /* tryagain.png */; };
 		F7A722DF18D5B34F000B0EEE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A722DE18D5B34F000B0EEE /* Foundation.framework */; };
@@ -83,6 +85,10 @@
 		F73DFA5E18D5BFD70057C964 /* PopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupVC.xib; sourceTree = "<group>"; };
 		F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		F758FEA818D9AF3B00A56B6A /* redcross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redcross@2x.png"; sourceTree = "<group>"; };
+		F7682AF818DD071E00F0F598 /* LDProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDProgressView.h; sourceTree = "<group>"; };
+		F7682AF918DD071E00F0F598 /* LDProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDProgressView.m; sourceTree = "<group>"; };
+		F7682AFA18DD071E00F0F598 /* UIColor+RGBValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RGBValues.h"; sourceTree = "<group>"; };
+		F7682AFB18DD071E00F0F598 /* UIColor+RGBValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RGBValues.m"; sourceTree = "<group>"; };
 		F79BE10918D8524B008725E4 /* fbshare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fbshare.png; sourceTree = "<group>"; };
 		F79BE10B18D855F6008725E4 /* tryagain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tryagain.png; sourceTree = "<group>"; };
 		F7A722DB18D5B34F000B0EEE /* NextNum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NextNum.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +174,17 @@
 			name = WeChat;
 			sourceTree = "<group>";
 		};
+		F7682AF718DD06FB00F0F598 /* LDProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				F7682AF818DD071E00F0F598 /* LDProgressView.h */,
+				F7682AF918DD071E00F0F598 /* LDProgressView.m */,
+				F7682AFA18DD071E00F0F598 /* UIColor+RGBValues.h */,
+				F7682AFB18DD071E00F0F598 /* UIColor+RGBValues.m */,
+			);
+			name = LDProgressView;
+			sourceTree = "<group>";
+		};
 		F7A722D218D5B34F000B0EEE = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +230,7 @@
 		F7A722E418D5B34F000B0EEE /* NextNum */ = {
 			isa = PBXGroup;
 			children = (
+				F7682AF718DD06FB00F0F598 /* LDProgressView */,
 				F715C31818DC612500D133BF /* WeChat */,
 				F70A7EF018D6D4280027879C /* modal */,
 				F7A7231618D5B42C000B0EEE /* NumberView.h */,
@@ -426,6 +444,8 @@
 				F7A722EF18D5B34F000B0EEE /* AppDelegate.m in Sources */,
 				F70A7EEC18D6A1260027879C /* Record.m in Sources */,
 				F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */,
+				F7682AFD18DD071E00F0F598 /* UIColor+RGBValues.m in Sources */,
+				F7682AFC18DD071E00F0F598 /* LDProgressView.m in Sources */,
 				F7A722EB18D5B34F000B0EEE /* main.m in Sources */,
 				F7A7231F18D5B42C000B0EEE /* ViewController.m in Sources */,
 				F7A7231C18D5B42C000B0EEE /* NumberView.m in Sources */,
@@ -510,7 +530,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -542,7 +562,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -562,7 +582,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";
 				INFOPLIST_FILE = "NextNum/NextNum-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NextNum",
@@ -586,7 +606,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";
 				INFOPLIST_FILE = "NextNum/NextNum-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NextNum",

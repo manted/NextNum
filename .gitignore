@@ -42,8 +42,6 @@ NextNum/WXApi.h
 
 NextNum/WXApiObject.h
 
-NextNum/libWeChatSDK.a
-
 NextNum/LDProgressView.h
 
 NextNum/LDProgressView.m

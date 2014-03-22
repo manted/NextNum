@@ -49,3 +49,5 @@ NextNum/LDProgressView.m
 NextNum/UIColor+RGBValues.h
 
 NextNum/UIColor+RGBValues.m
+
+NextNum/libWeChatSDK.a

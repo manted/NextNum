@@ -341,6 +341,7 @@
     if (self.isOver == NO) {
         if([self numberOfTouching] > 2){ // use more than 2 fingers
             [view showRedCross];
+            [self showCorrectView];
             [self gameOver];
         }else{
             if ([view getNumber] == self.currentNumber) {
@@ -357,6 +358,7 @@
 //                [self setTime];
             }else{ // press wrong number
                 [view showRedCross];
+                [self showCorrectView];
                 [self gameOver];
             }
         }
@@ -369,6 +371,7 @@
     if (self.isOver == NO) {
         if ([view getNumber] + 2 != self.currentNumber) { // release wrong number
             [view showRedCross];
+            [self showCorrectView];
             [self gameOver];
         }else{
             [view clearNumber];
@@ -423,6 +426,15 @@
     [self presentPopupViewController:popup animated:YES completion:nil];
 }
 
+-(void)showCorrectView
+{
+    for (NumberView *view in self.array) {
+        if ([view getNumber] == self.currentNumber) {
+            [view showCorrect];
+        }
+    }
+}
+
 #pragma mark - helper methods
 -(void)disableViews
 {
@@ -471,6 +483,7 @@
     for (NumberView *view in self.array) {
         [view clearNumber];
         [view hideRedCross];
+        [view hideCorrect];
     }
     [self setNumber];
     [self setTime2];

@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UIImage *imgLight;
 @property (nonatomic, strong) UIImageView *redCrossView;
 @property (nonatomic, strong) UIImage *crossImg;
+@property (nonatomic, strong) UIImageView *correctView;
+@property (nonatomic, strong) UIImage *correctImg;
 
 @property (nonatomic) BOOL isTouching;
 
@@ -210,12 +212,30 @@
     return _redCrossView;
 }
 
+-(UIImageView*)correctView
+{
+    if (!_correctView) {
+        _correctView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+        [_correctView setImage:self.correctImg];
+        [_correctView setAlpha:0.5f];
+    }
+    return _correctView;
+}
+
 -(UIImage*)crossImg
 {
     if (!_crossImg) {
         _crossImg = [UIImage imageNamed:@"redcross"];
     }
     return _crossImg;
+}
+
+-(UIImage*)correctImg
+{
+    if (!_correctImg) {
+        _correctImg = [UIImage imageNamed:@"correct"];
+    }
+    return _correctImg;
 }
 
 -(UIImageView*)imgV
@@ -318,6 +338,16 @@
 -(void)showRedCross
 {
     [self addSubview:self.redCrossView];
+}
+
+-(void)hideCorrect
+{
+    [self.correctView removeFromSuperview];
+}
+
+-(void)showCorrect
+{
+    [self addSubview:self.correctView];
 }
 
 - (void)flip

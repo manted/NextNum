@@ -26,6 +26,9 @@
 -(void)showRedCross;
 -(void)hideRedCross;
 
+-(void)showCorrect;
+-(void)hideCorrect;
+
 -(void)rotate;
 -(void)rotateBack;
 

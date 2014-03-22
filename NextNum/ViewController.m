@@ -53,11 +53,11 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [self.view addSubview:self.persenalLabel];
-    [self.view addSubview:self.worldLabel];
     [self.view addSubview:self.containerView];
+    [self.containerView addSubview:self.persenalLabel];
+    [self.containerView addSubview:self.worldLabel];
 //    [self.view addSubview:self.timeLabel];
-    [self.view addSubview:self.progressView];
+    [self.containerView addSubview:self.progressView];
     [self addNumberViews];
     self.currentNumber = INITIAL_NUMBER;
     [self setNumber];
@@ -190,7 +190,7 @@
 -(UILabel*)persenalLabel
 {
     if (!_persenalLabel) {
-        _persenalLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, 160, 20)];
+        _persenalLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 4, 160, 20)];
         [_persenalLabel setAdjustsFontSizeToFitWidth:YES];
         [_persenalLabel setBackgroundColor:[UIColor clearColor]];
         [_persenalLabel setTextColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
@@ -202,7 +202,7 @@
 -(UILabel*)worldLabel
 {
     if (!_worldLabel) {
-        _worldLabel = [[UILabel alloc]initWithFrame:CGRectMake(160, 50, 160, 20)];
+        _worldLabel = [[UILabel alloc]initWithFrame:CGRectMake(160, 4, 160, 20)];
         [_worldLabel setAdjustsFontSizeToFitWidth:YES];
         [_worldLabel setBackgroundColor:[UIColor clearColor]];
         [_worldLabel setTextColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
@@ -214,7 +214,7 @@
 -(LDProgressView*)progressView
 {
     if (!_progressView) {
-        _progressView = [[LDProgressView alloc] initWithFrame:CGRectMake(10, 74, self.view.frame.size.width-20, 22)];
+        _progressView = [[LDProgressView alloc] initWithFrame:CGRectMake(10, 28, self.view.frame.size.width-20, 22)];
         //    self.progressView.color = [UIColor colorWithRed:204.0/255.0f green:192.0/255.0f blue:177.0/255.0f alpha:1];
         _progressView.color = [UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1];
         _progressView.flat = @YES;
@@ -268,7 +268,7 @@
 -(UIView*)containerView
 {
     if (!_containerView) {
-        _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 100, 320, 320)];
+        _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 46, 320, 376)];
         _containerView.backgroundColor = [UIColor colorWithRed:187.0f/255.0f green:173.0f/255.0f blue:158.0f/255.0f alpha:1];
     }
     return _containerView;
@@ -278,7 +278,7 @@
 {
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            NumberView *numView = [[NumberView alloc]initWithFrame:CGRectMake(i * 80, j * 80, 80, 80)];
+            NumberView *numView = [[NumberView alloc]initWithFrame:CGRectMake(i * 80, 54 + j * 80, 80, 80)];
             numView.vc = self;
             [self.containerView addSubview:numView];
             [self.array addObject:numView];
@@ -450,29 +450,31 @@
         while ([(NumberView*)[self.array objectAtIndex:x]isEmpty] == NO) {
             x = arc4random() % 16;
         }
-        if (num == 1) {
-            if (self.currentNumber > 50) { // begin rotate
-                [(NumberView*)[self.array objectAtIndex:x] rotate];
-                [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
-            }else{
-                [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
+        if (num == 1) { //correct number
+            if (self.currentNumber > 40) { // change size
+                [(NumberView*)[self.array objectAtIndex:x] changeSize];
             }
             
-        }else{
+            if (self.currentNumber > 60) { // begin rotate
+                [(NumberView*)[self.array objectAtIndex:x] rotate];
+            }
+            
+            [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
+            
+        }else{ //wrong number
             int wrongNum = arc4random() % 21 - 10;
             while (wrongNum == 0) {
                 wrongNum = arc4random() % 21 - 10;
             }
-            if (self.currentNumber > 50) { // begin rotate
-                [(NumberView*)[self.array objectAtIndex:x] rotate];
-                [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
-                [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
-
-            }else{
-                [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
-                [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
-
+            if (self.currentNumber > 40) { // change size
+                [(NumberView*)[self.array objectAtIndex:x] changeSize];
             }
+            if (self.currentNumber > 60) { // begin rotate
+                [(NumberView*)[self.array objectAtIndex:x] rotate];
+            }
+            
+            [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
+            [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
         }
         
         num = num - 1;
@@ -520,11 +522,11 @@
     }else if (self.currentNumber < 80) {
 //        self.second = self.second + 1;
 //        self.decisecond = self.decisecond + 4;
-        self.currentTime = self.currentTime + 1.4f;
+        self.currentTime = self.currentTime + 1.6f;
     }else{
 //        self.second = self.second + 1;
 //        self.decisecond = self.decisecond + 6;
-        self.currentTime = self.currentTime + 1.6f;
+        self.currentTime = self.currentTime + 2.0f;
     }
     if (self.currentTime > self.timeLimit) {
         self.timeLimit = self.currentTime;

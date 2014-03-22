@@ -78,6 +78,35 @@
     return _numLabel;
 }
 
+-(void)changeSize
+{
+    int x = arc4random() % 5;
+    switch (x) {
+        case 0:
+            [self.numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:60]];
+            break;
+        case 1:
+            [self.numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:55]];
+            break;
+        case 2:
+            [self.numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:40]];
+            break;
+        case 3:
+            [self.numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:35]];
+            break;
+        case 4:
+            [self.numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:30]];
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)resetSize
+{
+    [self.numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:60]];
+}
+
 -(void)rotate
 {
     [UIView beginAnimations:nil context:NULL];
@@ -259,6 +288,7 @@
 -(void)clearNumber
 {
     [self rotateBack];
+    [self resetSize];
     self.number = EMPTY_NUMBER;
 }
 

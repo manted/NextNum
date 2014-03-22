@@ -28,5 +28,7 @@
 
 -(void)rotate;
 -(void)rotateBack;
-//-(void)setNumber:(int)number rotate:(BOOL)rotate;
+
+-(void)changeSize;
+-(void)resetSize;
 @end

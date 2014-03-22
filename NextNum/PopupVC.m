@@ -44,6 +44,8 @@
     }else{
         [self.scoreLabel setTextAlignment:ALIGN_CENTER];
     }
+    
+    [self.view setBackgroundColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
 }
 
 //-(void)setImg:(UIImage *)img
@@ -59,7 +61,7 @@
         [_scoreLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:40]];
         [_scoreLabel setAdjustsFontSizeToFitWidth:YES];
         [_scoreLabel setBackgroundColor:[UIColor clearColor]];
-        [_scoreLabel setTextColor:[UIColor redColor]];
+        [_scoreLabel setTextColor:[UIColor colorWithRed:88.0/255.0f green:58.0/255.0f blue:82.0/255.0f alpha:1]];
     }
     return _scoreLabel;
 }

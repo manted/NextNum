@@ -279,8 +279,6 @@
     NSLog(@"end number = %d", self.number);
     self.isTouching = NO;
     [self.vc endTouchingNumber:self];
-//    [self clearNumber];
-    self.isTouching = NO;
 }
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
@@ -315,16 +313,22 @@
 - (void)flip
 {
     if (self.number == EMPTY_NUMBER) {
+        [self setUserInteractionEnabled:NO];
         [UIView transitionFromView:self.frontView toView:self.backView
                           duration:0.2
                            options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:NULL];
+                        completion:^(BOOL success){
+                            [self setUserInteractionEnabled:YES];
+                        }];
     }
     else {
+        [self setUserInteractionEnabled:NO];
         [UIView transitionFromView:self.backView toView:self.frontView
                           duration:0.2
                            options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:NULL];
+                        completion:^(BOOL success){
+                            [self setUserInteractionEnabled:YES];
+                        }];
     }
 }
 

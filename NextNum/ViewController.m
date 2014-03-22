@@ -11,6 +11,7 @@
 #import "Record+CoreData.h"
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
+#import "LDProgressView.h"
 
 @interface ViewController ()
 
@@ -32,6 +33,9 @@
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) LDProgressView *progressView;
+@property (nonatomic) float timeLimit;
+@property (nonatomic) float currentTime;
 
 @property (nonatomic) int decisecond;
 @property (nonatomic) int second;
@@ -52,11 +56,13 @@
     [self.view addSubview:self.persenalLabel];
     [self.view addSubview:self.worldLabel];
     [self.view addSubview:self.containerView];
-    [self.view addSubview:self.timeLabel];
+//    [self.view addSubview:self.timeLabel];
+    [self.view addSubview:self.progressView];
     [self addNumberViews];
     self.currentNumber = INITIAL_NUMBER;
     [self setNumber];
     [self setTime2];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -159,6 +165,18 @@
     return _array;
 }
 
+-(void)setCurrentTime:(float)currentTime
+{
+    _currentTime = currentTime;
+    [self updateProgressView];
+}
+
+-(void)setTimeLimit:(float)timeLimit
+{
+    _timeLimit = timeLimit;
+    [self updateProgressView];
+}
+
 #pragma mark - UI elements
 -(UIActivityIndicatorView*)indicator
 {
@@ -175,8 +193,8 @@
         _persenalLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, 160, 20)];
         [_persenalLabel setAdjustsFontSizeToFitWidth:YES];
         [_persenalLabel setBackgroundColor:[UIColor clearColor]];
-        [_persenalLabel setTextColor:[UIColor whiteColor]];
-        [_persenalLabel setFont:[UIFont fontWithName:@"Chalkduster" size:20]];
+        [_persenalLabel setTextColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
+        [_persenalLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
     }
     return _persenalLabel;
 }
@@ -187,10 +205,30 @@
         _worldLabel = [[UILabel alloc]initWithFrame:CGRectMake(160, 50, 160, 20)];
         [_worldLabel setAdjustsFontSizeToFitWidth:YES];
         [_worldLabel setBackgroundColor:[UIColor clearColor]];
-        [_worldLabel setTextColor:[UIColor whiteColor]];
+        [_worldLabel setTextColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
         [_worldLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
     }
     return _worldLabel;
+}
+
+-(LDProgressView*)progressView
+{
+    if (!_progressView) {
+        _progressView = [[LDProgressView alloc] initWithFrame:CGRectMake(10, 74, self.view.frame.size.width-20, 22)];
+        //    self.progressView.color = [UIColor colorWithRed:204.0/255.0f green:192.0/255.0f blue:177.0/255.0f alpha:1];
+        _progressView.color = [UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1];
+        _progressView.flat = @YES;
+        _progressView.showText = @NO;
+        _progressView.progress = 0.0;
+        _progressView.animate = @YES;
+        _progressView.borderRadius = @12;
+        _progressView.showStroke = @NO;
+        _progressView.progressInset = @5;
+        [_progressView setOuterStrokeWidth:@2];
+        [_progressView setShowBackground:@NO];
+        _progressView.type = LDProgressSolid;
+    }
+    return _progressView;
 }
 
 -(UILabel*)timeLabel
@@ -220,6 +258,11 @@
 -(void)updatePersenalRecordLabel:(int)record
 {
     [self.persenalLabel setText:[NSString stringWithFormat:@"Best: %d",record]];
+}
+
+-(void)updateProgressView
+{
+    self.progressView.progress = self.currentTime / self.timeLimit;
 }
 
 -(UIView*)containerView
@@ -460,22 +503,31 @@
 
 -(void)setTime2
 {
-    self.second = 10;
-    self.decisecond = 0;
-    [self updateTimeLabelText];
+//    self.second = 10;
+//    self.decisecond = 0;
+//    [self updateTimeLabelText];
+    self.timeLimit = 10.0f;
+    self.currentTime = 10.0f;
+//    [self updateProgressView];
 }
 
 -(void)addTime
 {
     if (self.currentNumber < 40) {
-        self.second = self.second + 1;
-        self.decisecond = self.decisecond + 2;
+//        self.second = self.second + 1;
+//        self.decisecond = self.decisecond + 2;
+        self.currentTime = self.currentTime + 1.2f;
     }else if (self.currentNumber < 80) {
-        self.second = self.second + 1;
-        self.decisecond = self.decisecond + 4;
+//        self.second = self.second + 1;
+//        self.decisecond = self.decisecond + 4;
+        self.currentTime = self.currentTime + 1.4f;
     }else{
-        self.second = self.second + 1;
-        self.decisecond = self.decisecond + 6;
+//        self.second = self.second + 1;
+//        self.decisecond = self.decisecond + 6;
+        self.currentTime = self.currentTime + 1.6f;
+    }
+    if (self.currentTime > self.timeLimit) {
+        self.timeLimit = self.currentTime;
     }
 }
 
@@ -502,17 +554,23 @@
 -(void)tick
 {
 //    NSLog(@"start timing");
-    if (self.decisecond == 0) {
-        if (self.second > 0) {
-            self.decisecond = 9;
-            self.second = self.second - 1;
-        }else{
-            [self gameOver];
-        }
+//    if (self.decisecond == 0) {
+//        if (self.second > 0) {
+//            self.decisecond = 9;
+//            self.second = self.second - 1;
+//        }else{
+//            [self gameOver];
+//        }
+//    }else{
+//        self.decisecond = self.decisecond - 1;
+//    }
+//    [self updateTimeLabelText];
+    if (self.currentTime < 0.0) {
+        [self gameOver];
     }else{
-        self.decisecond = self.decisecond - 1;
+        self.currentTime = self.currentTime - 0.1f;
     }
-    [self updateTimeLabelText];
+//    [self updateProgressView];
 }
 
 -(float)getTimeLimit

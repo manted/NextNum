@@ -13,6 +13,9 @@
 #import <Parse/Parse.h>
 #import "LDProgressView.h"
 
+#define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+#define IS_IPHONE7 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
+
 @interface ViewController ()
 
 @property (nonatomic, strong) NSMutableArray *array;
@@ -42,9 +45,12 @@
 
 @property (nonatomic) BOOL isOver;
 
-//time 2
+// time 2
 @property (nonatomic) NSTimer *timer2;
-
+// iAd
+@property (weak, nonatomic) IBOutlet ADBannerView *adView;
+// tip
+@property (nonatomic, strong) UILabel *tipLabel;
 @end
 
 @implementation ViewController
@@ -52,7 +58,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
     [self.view addSubview:self.containerView];
     [self.containerView addSubview:self.persenalLabel];
     [self.containerView addSubview:self.worldLabel];
@@ -63,49 +69,55 @@
     [self setNumber];
     [self setTime2];
     
+    self.adView.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+    [self.persenalLabel setText:[NSString stringWithFormat:@"Best: "]];
+    [self.worldLabel setText:[NSString stringWithFormat:@"WR: ?"]];
+    
+    [self.containerView addSubview:self.indicator];
+    [self.view addSubview:self.tipLabel];
+    
+    [self readPersenalRecord];
+    // get world record from Parse
+    [self readWorldRecord];
+    
+    self.isOver = YES;
+    
+    [self.adView setHidden:YES];
+}
+
+#pragma mark - Parse
+-(void)readWorldRecord
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"WR"];
+    [self.indicator startAnimating];
+    [query getObjectInBackgroundWithId:@"f2V7qDto9G" block:^(PFObject *worldRecord, NSError *error) {
+        int wr = [[worldRecord objectForKey:@"record"] intValue];
+        //        NSLog(@"%d", wr);
+        self.wrObject = worldRecord;
+        [self updateWorldRecord:wr];
+        [self.indicator stopAnimating];
+    }];
+}
+
+#pragma mark - Core Data
+-(void)readPersenalRecord
+{
     if (!self.managedDocument) {  // for demo purposes, we'll create a default database if none is set
         NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         url = [url URLByAppendingPathComponent:@"Database"];
         // url is now "<Documents Directory>/Database"
         self.managedDocument = [[UIManagedDocument alloc] initWithFileURL:url]; // setter will create this for us on disk
-    }
-    
-    [self.persenalLabel setText:[NSString stringWithFormat:@"Best: "]];
-    [self.worldLabel setText:[NSString stringWithFormat:@"WR: ?"]];
-    
-    [self.view addSubview:self.indicator];
-    
-    // get world record from Parse
-    PFQuery *query = [PFQuery queryWithClassName:@"WR"];
-    [self.indicator startAnimating];
-    [query getObjectInBackgroundWithId:@"f2V7qDto9G" block:^(PFObject *worldRecord, NSError *error) {
-        int wr = [[worldRecord objectForKey:@"record"] intValue];
-//        NSLog(@"%d", wr);
-        self.wrObject = worldRecord;
-        [self updateWorldRecord:wr];
-        [self.indicator stopAnimating];
-    }];
-    
-    if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
-        [self.persenalLabel setTextAlignment:ALIGN_CENTER];
-        [self.worldLabel setTextAlignment:ALIGN_CENTER];
-        [self.timeLabel setTextAlignment:ALIGN_CENTER];
     }else{
-        [self.persenalLabel setTextAlignment:ALIGN_CENTER];
-        [self.worldLabel setTextAlignment:ALIGN_CENTER];
-        [self.timeLabel setTextAlignment:ALIGN_CENTER];
+        [self useDocument];
     }
-    
-    self.isOver = YES;
 }
 
-#pragma mark - Core Data
 -(void)setManagedDocument:(UIManagedDocument *)managedDocument
 {
     if (!_managedDocument) {
@@ -181,10 +193,35 @@
 -(UIActivityIndicatorView*)indicator
 {
     if (!_indicator) {
-        _indicator = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(280, 51, 22, 22)];
+        _indicator = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(280, 5, 22, 22)];
         [_indicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
     }
     return _indicator;
+}
+
+-(UILabel*)tipLabel
+{
+    if (!_tipLabel) {
+        if (IS_WIDESCREEN) {
+            _tipLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 456, 300, 98)];
+        }else{
+            _tipLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 418, 300, 58)];
+        }
+        if (IS_IPHONE7) {
+            // here you go with iOS 7
+            [_tipLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
+        }else{
+            [_tipLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:15]];
+        }
+        
+        [_tipLabel setAdjustsFontSizeToFitWidth:YES];
+        [_tipLabel setBackgroundColor:[UIColor clearColor]];
+        [_tipLabel setTextColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
+        [_tipLabel setText:@"Press the next number before releasing the current one. BTW, be quick!"];
+        [_tipLabel setNumberOfLines:2];
+        [_tipLabel setTextAlignment:NSTextAlignmentCenter];
+    }
+    return _tipLabel;
 }
 
 -(UILabel*)persenalLabel
@@ -195,6 +232,7 @@
         [_persenalLabel setBackgroundColor:[UIColor clearColor]];
         [_persenalLabel setTextColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
         [_persenalLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
+        [_persenalLabel setTextAlignment:NSTextAlignmentCenter];
     }
     return _persenalLabel;
 }
@@ -207,6 +245,7 @@
         [_worldLabel setBackgroundColor:[UIColor clearColor]];
         [_worldLabel setTextColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
         [_worldLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
+        [_worldLabel setTextAlignment:NSTextAlignmentCenter];
     }
     return _worldLabel;
 }
@@ -240,6 +279,7 @@
         [_timeLabel setTextColor:[UIColor redColor]];
         [_timeLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
 //        [_timeLabel setText:@"Time Remaining"];
+        [_tipLabel setTextAlignment:NSTextAlignmentCenter];
     }
     return _timeLabel;
 }
@@ -268,7 +308,11 @@
 -(UIView*)containerView
 {
     if (!_containerView) {
-        _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 46, 320, 376)];
+        if (IS_WIDESCREEN) {
+            _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 76, 320, 376)];
+        }else{
+            _containerView = [[UIView alloc]initWithFrame:CGRectMake(0, 50, 320, 376)];
+        }
         _containerView.backgroundColor = [UIColor colorWithRed:187.0f/255.0f green:173.0f/255.0f blue:158.0f/255.0f alpha:1];
     }
     return _containerView;
@@ -601,6 +645,35 @@
     UIGraphicsEndImageContext();
     
     return img;
+}
+
+#pragma mark - iAd
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    if (self.isOver == YES) {
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    NSLog(@"ad did loadad");
+    [self.adView setHidden:NO];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    NSLog(@"ad did fail to receive ad with error: %@",error.description);
+    [self.adView setHidden:YES];
+}
+
+-(void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    NSLog(@"ad action did finish");
+    [self.adView setHidden:NO];
+    [self readPersenalRecord];
 }
 
 @end

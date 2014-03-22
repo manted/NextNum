@@ -8,14 +8,6 @@
 
 #import "NumberView.h"
 
-#define IPHONE_6_0 (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0)
-
-#ifdef IPHONE_6_0
-# define ALIGN_CENTER NSTextAlignmentCenter
-#else
-# define ALIGN_CENTER UITextAlignmentCenter
-#endif
-
 @interface NumberView()
 
 @property (nonatomic) int number;
@@ -44,14 +36,6 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-        
-        if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
-            [self.numLabel setTextAlignment:ALIGN_CENTER];
-        }else{
-            [self.numLabel setTextAlignment:ALIGN_CENTER];
-        }
-        [self.numLabel setTextAlignment:NSTextAlignmentCenter];
         
         [self addSubview:self.frontView];
         [self addSubview:self.backView];
@@ -74,6 +58,7 @@
         [_numLabel setBackgroundColor:[UIColor clearColor]];
         [_numLabel setTextColor:[self getColor]];
         [_numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:60]];
+        [_numLabel setTextAlignment:NSTextAlignmentCenter];
     }
     return _numLabel;
 }
@@ -138,7 +123,6 @@
         default:
             break;
     }
-//    self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_4+M_PI_2);
     
     [UIView commitAnimations];
 }
@@ -260,10 +244,6 @@
 
 -(void)setNumber:(int)number
 {
-//    if (rotate) {
-//        [self rotate];
-//    }
-    
     int temp = _number;
     _number = number;
     if (number == EMPTY_NUMBER) {

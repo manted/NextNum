@@ -10,21 +10,14 @@
 #import "NumberView.h"
 #import "UIViewController+CWPopup.h"
 #import <CoreData/CoreData.h>
+#import <iAd/iAd.h>
 
 #define INITIAL_NUMBER 1
 #define EMPTY_NUMBER 0
 
-#define IPHONE_6_0 (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0)
-
-#ifdef IPHONE_6_0
-# define ALIGN_CENTER NSTextAlignmentCenter
-#else
-# define ALIGN_CENTER UITextAlignmentCenter
-#endif
-
 @class NumberView;
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <ADBannerViewDelegate>
 
 -(void)beginTouchingNumber:(NumberView*)view;
 -(void)endTouchingNumber:(NumberView*)view;
@@ -33,7 +26,5 @@
 -(int)numberOfTouching;
 -(void)gameOver;
 -(BOOL)isOver;
-
-//+ (UIImage *) imageWithView:(UIView *)view;
 
 @end

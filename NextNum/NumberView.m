@@ -367,6 +367,7 @@
 - (void)flip
 {
     if (self.number == EMPTY_NUMBER) {
+        self.isTouching = NO;
         [self setUserInteractionEnabled:NO];
         [UIView transitionFromView:self.frontView toView:self.backView
                           duration:0.2

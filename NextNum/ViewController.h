@@ -27,4 +27,6 @@
 -(void)gameOver;
 -(BOOL)isOver;
 
+-(void)showGuide;
+
 @end

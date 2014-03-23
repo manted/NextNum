@@ -297,8 +297,15 @@
     return _isTouching;
 }
 
+-(void)cancelTouching
+{
+    self.isTouching = NO;
+}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+//    [super touchesBegan:touches withEvent:event];
+
     NSLog(@"began number = %d", self.number);
     self.isTouching = YES;
     [self.vc beginTouchingNumber:self];
@@ -306,6 +313,7 @@
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+//    [super touchesEnded:touches withEvent:event];
     NSLog(@"end number = %d", self.number);
     self.isTouching = NO;
     [self.vc endTouchingNumber:self];
@@ -313,7 +321,9 @@
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
+//    [super touchesCancelled:touches withEvent:event];
     NSLog(@"touches cancelled");
+    self.isTouching = NO;
     [self.vc gameOver];
 //    if ([self.vc isOver] == NO) {
 //        NSLog(@"touches cancelled numbeb of touching: %d",[self.vc numberOfTouching]);
@@ -322,7 +332,11 @@
 //            [self.vc gameOver];
 //        }
 //    }
-    self.isTouching = NO;
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+//    [super touchesMoved:touches withEvent:event];
 }
 
 -(BOOL)isEmpty

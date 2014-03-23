@@ -388,15 +388,17 @@
 #pragma mark - handle touch events
 -(void)beginTouchingNumber:(NumberView*)view
 {
+    NSLog(@"num of touching1: %d",[self numberOfTouching]);
     // time 2
     if (self.isOver == YES && self.currentNumber == 1){
         [self begin];
     }
-    
+    NSLog(@"num of touching2: %d",[self numberOfTouching]);
     if (self.isOver == NO) {
         if([self numberOfTouching] > 2){ // use more than 2 fingers
             [view showRedCross];
             [self showCorrectView];
+            NSLog(@"over 1");
             [self gameOver];
         }else{
             if ([view getNumber] == self.currentNumber) {
@@ -414,6 +416,7 @@
             }else{ // press wrong number
                 [view showRedCross];
                 [self showCorrectView];
+                NSLog(@"over 2");
                 [self gameOver];
             }
         }
@@ -427,6 +430,7 @@
         if ([view getNumber] + 2 != self.currentNumber) { // release wrong number
             [view showRedCross];
             [self showCorrectView];
+            NSLog(@"over 3");
             [self gameOver];
         }else{
             [view clearNumber];
@@ -439,6 +443,8 @@
 {
 //    NSLog(@"game over");
     [self disableViews];
+    // 1-2 bug will show without this line!!!!!!!!!!!!!!!!
+    [self cancelAllTouching];
     
     self.isOver = YES;
     
@@ -514,6 +520,15 @@
         }
     }
     return count;
+}
+
+-(void)cancelAllTouching
+{
+    for (NumberView *view in self.array) {
+        if ([view isTouching]) {
+            [view cancelTouching];
+        }
+    }
 }
 
 -(BOOL)isOver
@@ -681,6 +696,7 @@
 //    [self updateTimeLabelText];
     if (self.currentTime < 0.0) {
         [self showCorrectView];
+        NSLog(@"over 4");
         [self gameOver];
     }else{
         self.currentTime = self.currentTime - 0.1f;
@@ -728,24 +744,30 @@
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    NSLog(@"ad did loadad");
+//    NSLog(@"ad did loadad");
     [self.adView setHidden:NO];
     [self hideBombs];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-    NSLog(@"ad did fail to receive ad with error: %@",error.description);
+//    NSLog(@"ad did fail to receive ad with error: %@",error.description);
     [self.adView setHidden:YES];
     [self showBombs];
 }
 
 -(void)bannerViewActionDidFinish:(ADBannerView *)banner
 {
-    NSLog(@"ad action did finish");
+//    NSLog(@"ad action did finish");
     [self.adView setHidden:YES];
     [self showBombs];
     [self readPersenalRecord];
+}
+
+#pragma mark - guide
+-(void)showGuide
+{
+    
 }
 
 @end

@@ -21,6 +21,7 @@
 -(void)clearNumber;
 
 -(BOOL)isTouching;
+-(void)cancelTouching;
 -(BOOL)isEmpty;
 
 -(void)showRedCross;

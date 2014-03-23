@@ -13,5 +13,6 @@
 @property (nonatomic) BOOL isUsed;
 
 -(void)use;
+-(void)refill;
 
 @end

@@ -13,6 +13,7 @@
 #import <Parse/Parse.h>
 #import "LDProgressView.h"
 #import "BombButton.h"
+#import "GuideVC.h"
 
 #define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 #define IS_IPHONE7 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
@@ -53,11 +54,11 @@
 // tip
 @property (nonatomic, strong) UILabel *tipLabel;
 // bomb
-@property (nonatomic, strong) UIButton *bomb1;
-@property (nonatomic, strong) UIButton *bomb2;
-@property (nonatomic, strong) UIButton *bomb3;
-@property (nonatomic, strong) UIButton *bomb4;
-@property (nonatomic, strong) UIButton *bomb5;
+@property (nonatomic, strong) BombButton *bomb1;
+@property (nonatomic, strong) BombButton *bomb2;
+@property (nonatomic, strong) BombButton *bomb3;
+@property (nonatomic, strong) BombButton *bomb4;
+@property (nonatomic, strong) BombButton *bomb5;
 @end
 
 @implementation ViewController
@@ -77,6 +78,11 @@
     [self setTime2];
     
     self.adView.delegate = self;
+    
+    GuideVC *guide = [[GuideVC alloc] initWithNibName:@"GuideVC" bundle:nil];
+    guide.vc = self;
+//    [self presentPopupViewController:guide animated:YES completion:nil];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -225,7 +231,7 @@
         [_tipLabel setAdjustsFontSizeToFitWidth:YES];
         [_tipLabel setBackgroundColor:[UIColor clearColor]];
         [_tipLabel setTextColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
-        [_tipLabel setText:@"Press the next number before releasing the current one. BTW, be quick!"];
+        [_tipLabel setText:@"Press N+1 before releasing N. BTW, be quick!"];
         [_tipLabel setNumberOfLines:2];
         [_tipLabel setTextAlignment:NSTextAlignmentCenter];
     }
@@ -559,6 +565,13 @@
     [self setTime2];
 //    [self.timeLabel setText:@"Time Remaining"];
 //    self.isOver = NO;
+    
+    //refill bombs
+    [self.bomb1 refill];
+    [self.bomb2 refill];
+    [self.bomb3 refill];
+    [self.bomb4 refill];
+    [self.bomb5 refill];
 }
 
 -(void)setNumber

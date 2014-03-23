@@ -26,4 +26,10 @@
     [self setUserInteractionEnabled:NO];
 }
 
+-(void)refill
+{
+    [self setAlpha:1.0f];
+    [self setUserInteractionEnabled:YES];
+}
+
 @end

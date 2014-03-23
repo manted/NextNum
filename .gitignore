@@ -51,3 +51,7 @@ NextNum/UIColor+RGBValues.h
 NextNum/UIColor+RGBValues.m
 
 NextNum/libWeChatSDK.a
+
+nextnum.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+
+nextnum.xcodeproj/xcuserdata/manted.xcuserdatad/xcschemes/xcschememanagement.plist

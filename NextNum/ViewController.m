@@ -53,7 +53,11 @@
 // tip
 @property (nonatomic, strong) UILabel *tipLabel;
 // bomb
-//@property (nonatomic, strong) UIButton *bomb1;
+@property (nonatomic, strong) UIButton *bomb1;
+@property (nonatomic, strong) UIButton *bomb2;
+@property (nonatomic, strong) UIButton *bomb3;
+@property (nonatomic, strong) UIButton *bomb4;
+@property (nonatomic, strong) UIButton *bomb5;
 @end
 
 @implementation ViewController
@@ -336,17 +340,49 @@
 
 -(void)addBombs
 {
-    for (int i = 0; i < 5; i++) {
-        BombButton *bomb = [[BombButton alloc]initWithFrame:CGRectMake(5 + i * (50 + 15), 0, 50, 50)];
-        [bomb addTarget:self action:@selector(useBomb:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:bomb];
-    }
+    self.bomb1 = [[BombButton alloc]initWithFrame:CGRectMake(5, 0, 50, 50)];
+    [self.bomb1 addTarget:self action:@selector(useBomb:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.bomb1];
+    
+    self.bomb2 = [[BombButton alloc]initWithFrame:CGRectMake(5 + 1 * (50 + 15), 0, 50, 50)];
+    [self.bomb2 addTarget:self action:@selector(useBomb:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.bomb2];
+    
+    self.bomb3 = [[BombButton alloc]initWithFrame:CGRectMake(5 + 2 * (50 + 15), 0, 50, 50)];
+    [self.bomb3 addTarget:self action:@selector(useBomb:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.bomb3];
+    
+    self.bomb4 = [[BombButton alloc]initWithFrame:CGRectMake(5 + 3 * (50 + 15), 0, 50, 50)];
+    [self.bomb4 addTarget:self action:@selector(useBomb:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.bomb4];
+    
+    self.bomb5 = [[BombButton alloc]initWithFrame:CGRectMake(5 + 4 * (50 + 15), 0, 50, 50)];
+    [self.bomb5 addTarget:self action:@selector(useBomb:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.bomb5];
 }
 
 -(void)useBomb:(BombButton*)sender
 {
     [self clearWrongNumbers];
     [sender use];
+}
+
+-(void)showBombs
+{
+    [self.bomb1 setHidden:NO];
+    [self.bomb2 setHidden:NO];
+    [self.bomb3 setHidden:NO];
+    [self.bomb4 setHidden:NO];
+    [self.bomb5 setHidden:NO];
+}
+
+-(void)hideBombs
+{
+    [self.bomb1 setHidden:YES];
+    [self.bomb2 setHidden:YES];
+    [self.bomb3 setHidden:YES];
+    [self.bomb4 setHidden:YES];
+    [self.bomb5 setHidden:YES];
 }
 
 #pragma mark - handle touch events
@@ -694,18 +730,21 @@
 {
     NSLog(@"ad did loadad");
     [self.adView setHidden:NO];
+    [self hideBombs];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
     NSLog(@"ad did fail to receive ad with error: %@",error.description);
     [self.adView setHidden:YES];
+    [self showBombs];
 }
 
 -(void)bannerViewActionDidFinish:(ADBannerView *)banner
 {
     NSLog(@"ad action did finish");
     [self.adView setHidden:YES];
+    [self showBombs];
     [self readPersenalRecord];
 }
 

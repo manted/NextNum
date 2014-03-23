@@ -20,10 +20,12 @@
 		F70A7EFE18D6D6D50027879C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F70A7EFD18D6D6D50027879C /* QuartzCore.framework */; };
 		F70A7F0018D6D6E90027879C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F70A7EFF18D6D6E90027879C /* Security.framework */; };
 		F70A7F0418D6D6F70027879C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F70A7F0318D6D6F70027879C /* SystemConfiguration.framework */; };
-		F715C31C18DC613C00D133BF /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F715C31918DC613C00D133BF /* libWeChatSDK.a */; };
 		F715C31E18DC714300D133BF /* wechatshare.png in Resources */ = {isa = PBXBuildFile; fileRef = F715C31D18DC714300D133BF /* wechatshare.png */; };
 		F71FEB0F18DDAF380057BF21 /* correct@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F71FEB0E18DDAF380057BF21 /* correct@2x.png */; };
 		F71FF00C18DD9101006CA125 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F71FF00B18DD9101006CA125 /* iAd.framework */; };
+		F73C72C418DED59500F3E57F /* BombButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F73C72C318DED59500F3E57F /* BombButton.m */; };
+		F73C72C618DEDCBF00F3E57F /* bomb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F73C72C518DEDCBF00F3E57F /* bomb@2x.png */; };
+		F73C72C818DEE11E00F3E57F /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = F73C72C718DEE11E00F3E57F /* bomb.png */; };
 		F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F73DFA5D18D5BFD70057C964 /* PopupVC.m */; };
 		F73DFA6018D5BFD70057C964 /* PopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F73DFA5E18D5BFD70057C964 /* PopupVC.xib */; };
 		F73DFA6218D5D1D50057C964 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F73DFA6118D5D1D50057C964 /* FacebookSDK.framework */; };
@@ -49,6 +51,7 @@
 		F7A7231D18D5B42C000B0EEE /* numViewDark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A7231818D5B42C000B0EEE /* numViewDark@2x.png */; };
 		F7A7231E18D5B42C000B0EEE /* numViewLight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7A7231918D5B42C000B0EEE /* numViewLight@2x.png */; };
 		F7A7231F18D5B42C000B0EEE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A7231B18D5B42C000B0EEE /* ViewController.m */; };
+		F7F115CC18DDBDB6005E6363 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F7F115C918DDBDB6005E6363 /* libWeChatSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,12 +81,13 @@
 		F70A7EFD18D6D6D50027879C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F70A7EFF18D6D6E90027879C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F70A7F0318D6D6F70027879C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		F715C31918DC613C00D133BF /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
-		F715C31A18DC613C00D133BF /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		F715C31B18DC613C00D133BF /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		F715C31D18DC714300D133BF /* wechatshare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wechatshare.png; sourceTree = "<group>"; };
 		F71FEB0E18DDAF380057BF21 /* correct@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "correct@2x.png"; sourceTree = "<group>"; };
 		F71FF00B18DD9101006CA125 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		F73C72C218DED59500F3E57F /* BombButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BombButton.h; sourceTree = "<group>"; };
+		F73C72C318DED59500F3E57F /* BombButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BombButton.m; sourceTree = "<group>"; };
+		F73C72C518DEDCBF00F3E57F /* bomb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bomb@2x.png"; sourceTree = "<group>"; };
+		F73C72C718DEE11E00F3E57F /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
 		F73DFA5C18D5BFD70057C964 /* PopupVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupVC.h; sourceTree = "<group>"; };
 		F73DFA5D18D5BFD70057C964 /* PopupVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupVC.m; sourceTree = "<group>"; };
 		F73DFA5E18D5BFD70057C964 /* PopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupVC.xib; sourceTree = "<group>"; };
@@ -102,11 +106,10 @@
 		F7A722E618D5B34F000B0EEE /* NextNum-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NextNum-Info.plist"; sourceTree = "<group>"; };
 		F7A722E818D5B34F000B0EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F7A722EA18D5B34F000B0EEE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F7A722EC18D5B34F000B0EEE /* NextNum-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NextNum-Prefix.pch"; sourceTree = "<group>"; };
 		F7A722ED18D5B34F000B0EEE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F7A722EE18D5B34F000B0EEE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		F7A722F618D5B34F000B0EEE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		F7A722FC18D5B34F000B0EEE /* NextNumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NextNumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7A722FC18D5B34F000B0EEE /* NextNum.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NextNum.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7A722FD18D5B34F000B0EEE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F7A7230518D5B34F000B0EEE /* NextNumTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NextNumTests-Info.plist"; sourceTree = "<group>"; };
 		F7A7230718D5B34F000B0EEE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -118,6 +121,9 @@
 		F7A7231918D5B42C000B0EEE /* numViewLight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "numViewLight@2x.png"; sourceTree = "<group>"; };
 		F7A7231A18D5B42C000B0EEE /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		F7A7231B18D5B42C000B0EEE /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		F7F115C918DDBDB6005E6363 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		F7F115CA18DDBDB6005E6363 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		F7F115CB18DDBDB6005E6363 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +133,7 @@
 			files = (
 				F71FF00C18DD9101006CA125 /* iAd.framework in Frameworks */,
 				F70A7F0418D6D6F70027879C /* SystemConfiguration.framework in Frameworks */,
+				F7F115CC18DDBDB6005E6363 /* libWeChatSDK.a in Frameworks */,
 				F70A7F0018D6D6E90027879C /* Security.framework in Frameworks */,
 				F70A7EFE18D6D6D50027879C /* QuartzCore.framework in Frameworks */,
 				F70A7EFC18D6D6C80027879C /* MobileCoreServices.framework in Frameworks */,
@@ -140,7 +147,6 @@
 				F7A722DF18D5B34F000B0EEE /* Foundation.framework in Frameworks */,
 				F70A7EF218D6D5170027879C /* Parse.framework in Frameworks */,
 				EC296FDFA7C4489CB1FC5384 /* libPods.a in Frameworks */,
-				F715C31C18DC613C00D133BF /* libWeChatSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,9 +178,9 @@
 		F715C31818DC612500D133BF /* WeChat */ = {
 			isa = PBXGroup;
 			children = (
-				F715C31918DC613C00D133BF /* libWeChatSDK.a */,
-				F715C31A18DC613C00D133BF /* WXApi.h */,
-				F715C31B18DC613C00D133BF /* WXApiObject.h */,
+				F7F115C918DDBDB6005E6363 /* libWeChatSDK.a */,
+				F7F115CA18DDBDB6005E6363 /* WXApi.h */,
+				F7F115CB18DDBDB6005E6363 /* WXApiObject.h */,
 			);
 			name = WeChat;
 			sourceTree = "<group>";
@@ -205,7 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				F7A722DB18D5B34F000B0EEE /* NextNum.app */,
-				F7A722FC18D5B34F000B0EEE /* NextNumTests.xctest */,
+				F7A722FC18D5B34F000B0EEE /* NextNum.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -246,6 +252,8 @@
 				F73DFA5C18D5BFD70057C964 /* PopupVC.h */,
 				F73DFA5D18D5BFD70057C964 /* PopupVC.m */,
 				F73DFA5E18D5BFD70057C964 /* PopupVC.xib */,
+				F73C72C218DED59500F3E57F /* BombButton.h */,
+				F73C72C318DED59500F3E57F /* BombButton.m */,
 				F7A722ED18D5B34F000B0EEE /* AppDelegate.h */,
 				F7A722EE18D5B34F000B0EEE /* AppDelegate.m */,
 				F7A722F018D5B34F000B0EEE /* Main.storyboard */,
@@ -262,7 +270,6 @@
 				F7A722E618D5B34F000B0EEE /* NextNum-Info.plist */,
 				F7A722E718D5B34F000B0EEE /* InfoPlist.strings */,
 				F7A722EA18D5B34F000B0EEE /* main.m */,
-				F7A722EC18D5B34F000B0EEE /* NextNum-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -288,6 +295,8 @@
 		F7BED35918D5BA040002A625 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				F73C72C718DEE11E00F3E57F /* bomb.png */,
+				F73C72C518DEDCBF00F3E57F /* bomb@2x.png */,
 				F71FEB0E18DDAF380057BF21 /* correct@2x.png */,
 				F715C31D18DC714300D133BF /* wechatshare.png */,
 				F758FEA818D9AF3B00A56B6A /* redcross@2x.png */,
@@ -321,9 +330,9 @@
 			productReference = F7A722DB18D5B34F000B0EEE /* NextNum.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F7A722FB18D5B34F000B0EEE /* NextNumTests */ = {
+		F7A722FB18D5B34F000B0EEE /* NextNum Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F7A7231018D5B34F000B0EEE /* Build configuration list for PBXNativeTarget "NextNumTests" */;
+			buildConfigurationList = F7A7231018D5B34F000B0EEE /* Build configuration list for PBXNativeTarget "NextNum Tests" */;
 			buildPhases = (
 				F7A722F818D5B34F000B0EEE /* Sources */,
 				F7A722F918D5B34F000B0EEE /* Frameworks */,
@@ -334,9 +343,9 @@
 			dependencies = (
 				F7A7230218D5B34F000B0EEE /* PBXTargetDependency */,
 			);
-			name = NextNumTests;
+			name = "NextNum Tests";
 			productName = NextNumTests;
-			productReference = F7A722FC18D5B34F000B0EEE /* NextNumTests.xctest */;
+			productReference = F7A722FC18D5B34F000B0EEE /* NextNum.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -375,7 +384,7 @@
 			projectRoot = "";
 			targets = (
 				F7A722DA18D5B34F000B0EEE /* NextNum */,
-				F7A722FB18D5B34F000B0EEE /* NextNumTests */,
+				F7A722FB18D5B34F000B0EEE /* NextNum Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -385,6 +394,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F73C72C618DEDCBF00F3E57F /* bomb@2x.png in Resources */,
 				F7A7231D18D5B42C000B0EEE /* numViewDark@2x.png in Resources */,
 				F7A7231E18D5B42C000B0EEE /* numViewLight@2x.png in Resources */,
 				F758FEA918D9AF3B00A56B6A /* redcross@2x.png in Resources */,
@@ -396,6 +406,7 @@
 				F79BE10A18D8524B008725E4 /* fbshare.png in Resources */,
 				F79BE10C18D855F6008725E4 /* tryagain.png in Resources */,
 				F7A722F218D5B34F000B0EEE /* Main.storyboard in Resources */,
+				F73C72C818DEE11E00F3E57F /* bomb.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +461,7 @@
 				F70A7EE918D69FDB0027879C /* Record.xcdatamodeld in Sources */,
 				F70A7EEF18D6B3A70027879C /* Record+CoreData.m in Sources */,
 				F7A722EF18D5B34F000B0EEE /* AppDelegate.m in Sources */,
+				F73C72C418DED59500F3E57F /* BombButton.m in Sources */,
 				F70A7EEC18D6A1260027879C /* Record.m in Sources */,
 				F73DFA5F18D5BFD70057C964 /* PopupVC.m in Sources */,
 				F7682AFD18DD071E00F0F598 /* UIColor+RGBValues.m in Sources */,
@@ -510,6 +522,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -541,6 +557,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -548,6 +565,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv7s,
+					armv7,
+				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -573,6 +594,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -582,6 +604,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ye Hua (H87TYET4CR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ye Hua (H87TYET4CR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/manted/Documents/FacebookSDK,
@@ -589,13 +613,15 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";
-				INFOPLIST_FILE = "NextNum/NextNum-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/NextNum/NextNum-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NextNum",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NextNum;
+				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -606,6 +632,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ye Hua (H87TYET4CR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ye Hua (H87TYET4CR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/manted/Documents/FacebookSDK,
@@ -613,13 +641,15 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";
-				INFOPLIST_FILE = "NextNum/NextNum-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/NextNum/NextNum-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NextNum",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NextNum;
+				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -640,7 +670,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "NextNumTests/NextNumTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NextNum;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -658,7 +688,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NextNum/NextNum-Prefix.pch";
 				INFOPLIST_FILE = "NextNumTests/NextNumTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = NextNum;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -685,7 +715,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F7A7231018D5B34F000B0EEE /* Build configuration list for PBXNativeTarget "NextNumTests" */ = {
+		F7A7231018D5B34F000B0EEE /* Build configuration list for PBXNativeTarget "NextNum Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F7A7231118D5B34F000B0EEE /* Debug */,

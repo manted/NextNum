@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Parse/Parse.h>
 #import "LDProgressView.h"
+#import "BombButton.h"
 
 #define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 #define IS_IPHONE7 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
@@ -51,6 +52,8 @@
 @property (weak, nonatomic) IBOutlet ADBannerView *adView;
 // tip
 @property (nonatomic, strong) UILabel *tipLabel;
+// bomb
+//@property (nonatomic, strong) UIButton *bomb1;
 @end
 
 @implementation ViewController
@@ -81,6 +84,7 @@
     
     [self.containerView addSubview:self.indicator];
     [self.view addSubview:self.tipLabel];
+    [self addBombs];
     
     [self readPersenalRecord];
     // get world record from Parse
@@ -328,6 +332,21 @@
             [self.array addObject:numView];
         }
     }
+}
+
+-(void)addBombs
+{
+    for (int i = 0; i < 5; i++) {
+        BombButton *bomb = [[BombButton alloc]initWithFrame:CGRectMake(5 + i * (50 + 15), 0, 50, 50)];
+        [bomb addTarget:self action:@selector(useBomb:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:bomb];
+    }
+}
+
+-(void)useBomb:(BombButton*)sender
+{
+    [self clearWrongNumbers];
+    [sender use];
 }
 
 #pragma mark - handle touch events
@@ -625,6 +644,7 @@
 //    }
 //    [self updateTimeLabelText];
     if (self.currentTime < 0.0) {
+        [self showCorrectView];
         [self gameOver];
     }else{
         self.currentTime = self.currentTime - 0.1f;
@@ -685,7 +705,7 @@
 -(void)bannerViewActionDidFinish:(ADBannerView *)banner
 {
     NSLog(@"ad action did finish");
-    [self.adView setHidden:NO];
+    [self.adView setHidden:YES];
     [self readPersenalRecord];
 }
 

@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
+
+@class ViewController;
 
 @interface GuideVC : UIViewController
+
+@property (nonatomic, strong) ViewController *vc;
 
 @end

@@ -19,6 +19,9 @@
 
 @interface ViewController : UIViewController <ADBannerViewDelegate>
 
+// guide
+@property (nonatomic) BOOL isGuideShown;
+
 -(void)beginTouchingNumber:(NumberView*)view;
 -(void)endTouchingNumber:(NumberView*)view;
 
@@ -28,5 +31,6 @@
 -(BOOL)isOver;
 
 -(void)showGuide;
+-(void)dismissGuide;
 
 @end

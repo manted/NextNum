@@ -11,7 +11,7 @@
 
 @class ViewController;
 
-@interface GuideVC : UIViewController
+@interface GuideVC : UIViewController <UIPageViewControllerDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) ViewController *vc;
 

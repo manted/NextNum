@@ -59,6 +59,7 @@
 @property (nonatomic, strong) BombButton *bomb3;
 @property (nonatomic, strong) BombButton *bomb4;
 @property (nonatomic, strong) BombButton *bomb5;
+
 @end
 
 @implementation ViewController
@@ -78,11 +79,6 @@
     [self setTime2];
     
     self.adView.delegate = self;
-    
-    GuideVC *guide = [[GuideVC alloc] initWithNibName:@"GuideVC" bundle:nil];
-    guide.vc = self;
-//    [self presentPopupViewController:guide animated:YES completion:nil];
-
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -94,15 +90,22 @@
     
     [self.containerView addSubview:self.indicator];
     [self.view addSubview:self.tipLabel];
+    NSLog(@"addbombs");
     [self addBombs];
-    
+    //read persenal and world record
     [self readPersenalRecord];
-    // get world record from Parse
     [self readWorldRecord];
     
     self.isOver = YES;
     
     [self.adView setHidden:YES];
+    
+    if (self.isGuideShown == NO) {
+        NSLog(@"hide bombs");
+        [self hideBombs];
+        [self hideTip];
+        [self showGuide];
+    }
 }
 
 #pragma mark - Parse
@@ -236,6 +239,16 @@
         [_tipLabel setTextAlignment:NSTextAlignmentCenter];
     }
     return _tipLabel;
+}
+
+-(void)showTip
+{
+    [self.tipLabel setHidden:NO];
+}
+
+-(void)hideTip
+{
+    [self.tipLabel setHidden:YES];
 }
 
 -(UILabel*)persenalLabel
@@ -766,21 +779,42 @@
 {
 //    NSLog(@"ad did fail to receive ad with error: %@",error.description);
     [self.adView setHidden:YES];
-    [self showBombs];
+    if (self.popupViewController == nil) {
+            [self showBombs];
+    }
 }
 
 -(void)bannerViewActionDidFinish:(ADBannerView *)banner
 {
 //    NSLog(@"ad action did finish");
     [self.adView setHidden:YES];
-    [self showBombs];
+    if (self.popupViewController == nil) {
+        [self showBombs];
+    }
     [self readPersenalRecord];
 }
 
 #pragma mark - guide
 -(void)showGuide
 {
+    self.isGuideShown = YES;
     
+    GuideVC *guide = [[GuideVC alloc] initWithNibName:@"GuideVC" bundle:nil];
+    guide.vc = self;
+    [self presentPopupViewController:guide animated:YES completion:nil];
+}
+
+-(void)dismissGuide
+{
+    if (self.popupViewController != nil) {
+        [self dismissPopupViewControllerAnimated:YES completion:^(){
+            [self enableViews];
+        }];
+    }
+    [self showTip];
+    if (self.adView.isHidden == YES) {
+        [self showBombs];
+    }
 }
 
 @end

@@ -31,6 +31,7 @@
 //@property (nonatomic) int persenalRecord;
 @property (nonatomic, strong) PFObject *wrObject;
 @property (nonatomic) int worldRecord;
+@property (nonatomic) int wrCount;
 
 @property (nonatomic, strong) UILabel *persenalLabel;
 @property (nonatomic, strong) UILabel *worldLabel;
@@ -79,6 +80,8 @@
     [self setTime2];
     
     self.adView.delegate = self;
+    
+    self.wrCount = 0;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -94,8 +97,12 @@
     [self addBombs];
     //read persenal and world record
     [self readPersenalRecord];
-    [self readWorldRecord];
-    
+//    if (self.wrCount % 3 == 0) { // read world record
+        [self readWorldRecord];
+//        self.wrCount = 0;
+//    }
+//    self.wrCount = self.wrCount + 1;
+
     self.isOver = YES;
     
     [self.adView setHidden:YES];
@@ -115,7 +122,7 @@
     [self.indicator startAnimating];
     [query getObjectInBackgroundWithId:@"f2V7qDto9G" block:^(PFObject *worldRecord, NSError *error) {
         int wr = [[worldRecord objectForKey:@"record"] intValue];
-        //        NSLog(@"%d", wr);
+        NSLog(@"wr: %d", wr);
         self.wrObject = worldRecord;
         [self updateWorldRecord:wr];
         [self.indicator stopAnimating];
@@ -461,8 +468,9 @@
 -(void)gameOver
 {
 //    NSLog(@"game over");
+    
     [self disableViews];
-    // 1-2 bug will show without this line!!!!!!!!!!!!!!!!
+    // 1 and 2 bug will show without this line!!!!!!!!!!!!!!!!
     [self cancelAllTouching];
     
     self.isOver = YES;
@@ -481,19 +489,22 @@
         [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
         [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error) {
-                NSLog(@"******%@",error.description);
+                NSLog(@"******\n%@",error.description);
             }
             if (succeeded) {
                 NSLog(@"######");
                 [self updateWorldRecord:score];
             }else{
                 [self.indicator startAnimating];
-                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-                    int latestWR = [[object objectForKey:@"record"] intValue];
-                    self.wrObject = object;
-                    [self updateWorldRecord:latestWR];
-                    [self.indicator stopAnimating];
-                }];
+//                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+//                    int latestWR = [[object objectForKey:@"record"] intValue];
+//                    NSLog(@"latestWR: %d",latestWR);
+//                    self.wrObject = object;
+//                    [self updateWorldRecord:latestWR];
+//                    [self.indicator stopAnimating];
+//                }];
+//                [self.wrObject refresh];
+                [self readWorldRecord];
             }
         }];
     }
@@ -564,6 +575,11 @@
         }];
     }
     [self reset];
+    
+    if ([self.adView isBannerLoaded] == YES) {
+        [self.adView setHidden:NO];
+        [self hideBombs];
+    }
 }
 
 -(void)reset
@@ -589,11 +605,16 @@
 
 -(void)setNumber
 {
-    int current10 = (int)self.currentNumber / 10.0f;
-    if (current10 > 15) {
-        current10 = 15;
+    int current10 = (int)(self.currentNumber / 10.0f);
+    if (current10 > 13) {
+        current10 = 13;
     }
     [self setNumberToViewsOf:current10 + 1];
+//    if (self.currentNumber > 3) {
+//        [self setNumberToViewsOf:14];
+//    }else{
+//        [self setNumberToViewsOf:1];
+//    }
 }
 
 -(void)setNumberToViewsOf:(int)num
@@ -672,15 +693,18 @@
 //        self.second = self.second + 1;
 //        self.decisecond = self.decisecond + 2;
         self.currentTime = self.currentTime + 1.2f;
-    }else if (self.currentNumber < 80) {
-//        self.second = self.second + 1;
-//        self.decisecond = self.decisecond + 4;
+    }else if (self.currentNumber < 70) {
         self.currentTime = self.currentTime + 1.6f;
-    }else{
-//        self.second = self.second + 1;
-//        self.decisecond = self.decisecond + 6;
+    }else if (self.currentNumber < 100) {
         self.currentTime = self.currentTime + 2.0f;
+    }else if (self.currentNumber < 120) {
+        self.currentTime = self.currentTime + 2.3f;
+    }else if (self.currentNumber < 130) {
+        self.currentTime = self.currentTime + 2.6f;
+    }else{
+        self.currentTime = self.currentTime + 2.9f;
     }
+    
     if (self.currentTime > self.timeLimit) {
         self.timeLimit = self.currentTime;
     }
@@ -771,8 +795,10 @@
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
 //    NSLog(@"ad did loadad");
-    [self.adView setHidden:NO];
-    [self hideBombs];
+    if (self.isOver == YES) {
+        [self.adView setHidden:NO];
+        [self hideBombs];
+    }
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error

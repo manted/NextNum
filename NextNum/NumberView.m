@@ -290,6 +290,7 @@
     [self rotateBack];
     [self resetSize];
     self.number = EMPTY_NUMBER;
+    [self setIsWrongNumber:NO];
 }
 
 -(BOOL)isTouching

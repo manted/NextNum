@@ -31,7 +31,6 @@
 //@property (nonatomic) int persenalRecord;
 @property (nonatomic, strong) PFObject *wrObject;
 @property (nonatomic) int worldRecord;
-@property (nonatomic) int wrCount;
 
 @property (nonatomic, strong) UILabel *persenalLabel;
 @property (nonatomic, strong) UILabel *worldLabel;
@@ -43,8 +42,8 @@
 @property (nonatomic) float timeLimit;
 @property (nonatomic) float currentTime;
 
-@property (nonatomic) int decisecond;
-@property (nonatomic) int second;
+//@property (nonatomic) int decisecond;
+//@property (nonatomic) int second;
 
 @property (nonatomic) BOOL isOver;
 
@@ -81,7 +80,6 @@
     
     self.adView.delegate = self;
     
-    self.wrCount = 0;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -97,11 +95,8 @@
     [self addBombs];
     //read persenal and world record
     [self readPersenalRecord];
-//    if (self.wrCount % 3 == 0) { // read world record
-        [self readWorldRecord];
-//        self.wrCount = 0;
-//    }
-//    self.wrCount = self.wrCount + 1;
+    [self readWorldRecord];
+
 
     self.isOver = YES;
     
@@ -288,7 +283,6 @@
 {
     if (!_progressView) {
         _progressView = [[LDProgressView alloc] initWithFrame:CGRectMake(10, 28, self.view.frame.size.width-20, 22)];
-        //    self.progressView.color = [UIColor colorWithRed:204.0/255.0f green:192.0/255.0f blue:177.0/255.0f alpha:1];
         _progressView.color = [UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1];
         _progressView.flat = @YES;
         _progressView.showText = @NO;
@@ -304,24 +298,19 @@
     return _progressView;
 }
 
--(UILabel*)timeLabel
-{
-    if (!_timeLabel) {
-        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 70, 160, 30)];
-        [_timeLabel setAdjustsFontSizeToFitWidth:YES];
-        [_timeLabel setBackgroundColor:[UIColor clearColor]];
-        [_timeLabel setTextColor:[UIColor redColor]];
-        [_timeLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
-//        [_timeLabel setText:@"Time Remaining"];
-        [_tipLabel setTextAlignment:NSTextAlignmentCenter];
-    }
-    return _timeLabel;
-}
-
--(void)updateTimeLabelText
-{
-    [self.timeLabel setText:[NSString stringWithFormat:@"%d:%d",self.second,self.decisecond]];
-}
+//-(UILabel*)timeLabel
+//{
+//    if (!_timeLabel) {
+//        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(80, 70, 160, 30)];
+//        [_timeLabel setAdjustsFontSizeToFitWidth:YES];
+//        [_timeLabel setBackgroundColor:[UIColor clearColor]];
+//        [_timeLabel setTextColor:[UIColor redColor]];
+//        [_timeLabel setFont:[UIFont fontWithName:@"ChalkboardSE-Bold" size:20]];
+////        [_timeLabel setText:@"Time Remaining"];
+//        [_tipLabel setTextAlignment:NSTextAlignmentCenter];
+//    }
+//    return _timeLabel;
+//}
 
 -(void)updateWorldRecord:(int)record
 {
@@ -592,7 +581,6 @@
     }
     [self setNumber];
     [self setTime2];
-//    [self.timeLabel setText:@"Time Remaining"];
 //    self.isOver = NO;
     
     //refill bombs
@@ -679,9 +667,6 @@
 
 -(void)setTime2
 {
-//    self.second = 10;
-//    self.decisecond = 0;
-//    [self updateTimeLabelText];
     self.timeLimit = 10.0f;
     self.currentTime = 10.0f;
 //    [self updateProgressView];
@@ -690,8 +675,6 @@
 -(void)addTime
 {
     if (self.currentNumber < 40) {
-//        self.second = self.second + 1;
-//        self.decisecond = self.decisecond + 2;
         self.currentTime = self.currentTime + 1.2f;
     }else if (self.currentNumber < 70) {
         self.currentTime = self.currentTime + 1.6f;
@@ -711,39 +694,10 @@
 }
 
 #pragma mark - time
--(void)setTime
-{
-    float timeLimit = [self getTimeLimit];
-    self.second = (int)timeLimit;
-    self.decisecond = [self getDecimalPartOfFloat:timeLimit - self.second];
-//    NSLog(@"%f, %d, %d",timeLimit,self.second,self.decisecond);
-
-    if ([self.timer isValid]) {
-        [self.timer invalidate];
-    }
-    
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1
-                                              target:self
-                                            selector:@selector(tick)
-                                            userInfo:nil
-                                             repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-}
 
 -(void)tick
 {
 //    NSLog(@"start timing");
-//    if (self.decisecond == 0) {
-//        if (self.second > 0) {
-//            self.decisecond = 9;
-//            self.second = self.second - 1;
-//        }else{
-//            [self gameOver];
-//        }
-//    }else{
-//        self.decisecond = self.decisecond - 1;
-//    }
-//    [self updateTimeLabelText];
     if (self.currentTime < 0.0) {
         [self showCorrectView];
         NSLog(@"over 4");

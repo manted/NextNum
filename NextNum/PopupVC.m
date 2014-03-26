@@ -39,11 +39,6 @@
     [super viewWillAppear:animated];
     [self.view addSubview:self.scoreLabel];
     [self.scoreLabel setText:[NSString stringWithFormat:@"%d",self.score]];
-//    if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_6_0) {
-//        [self.scoreLabel setTextAlignment:ALIGN_CENTER];
-//    }else{
-//        [self.scoreLabel setTextAlignment:ALIGN_CENTER];
-//    }
     
     [self.view setBackgroundColor:[UIColor colorWithRed:238.0/255.0f green:228.0/255.0f blue:217.0/255.0f alpha:1]];
 }

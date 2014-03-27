@@ -143,11 +143,39 @@
         }
         
         if (error) {
-            NSLog(@"%@",error.description);
+//            NSLog(@"%@",error.description);
             [self.worldLabel setText:[NSString stringWithFormat:@"WR: ?"]];
             [self.indicator stopAnimating];
         }
     }];
+}
+
+-(void)saveWorldRecord:(int)score
+{
+    NSLog(@"save wr");
+    [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
+    [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"******\n%@",error.description);
+        }
+        if (succeeded) {
+            NSLog(@"######");
+            [self updateWorldRecord:score];
+            [self.indicator stopAnimating];
+        }else{
+            //            [self.indicator startAnimating];
+            //                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            //                    int latestWR = [[object objectForKey:@"record"] intValue];
+            //                    NSLog(@"latestWR: %d",latestWR);
+            //                    self.wrObject = object;
+            //                    [self updateWorldRecord:latestWR];
+            //                    [self.indicator stopAnimating];
+            //                }];
+            //                [self.wrObject refresh];
+            [self readWorldRecord];
+        }
+    }];
+    
 }
 
 #pragma mark - Core Data
@@ -533,34 +561,6 @@
     [self presentPopupViewController:popup animated:YES completion:nil];
     
     [self stopSpin];
-}
-
--(void)saveWorldRecord:(int)score
-{
-    NSLog(@"save wr");
-    [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
-    [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            NSLog(@"******\n%@",error.description);
-        }
-        if (succeeded) {
-            NSLog(@"######");
-            [self updateWorldRecord:score];
-            [self.indicator stopAnimating];
-        }else{
-//            [self.indicator startAnimating];
-            //                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            //                    int latestWR = [[object objectForKey:@"record"] intValue];
-            //                    NSLog(@"latestWR: %d",latestWR);
-            //                    self.wrObject = object;
-            //                    [self updateWorldRecord:latestWR];
-            //                    [self.indicator stopAnimating];
-            //                }];
-            //                [self.wrObject refresh];
-            [self readWorldRecord];
-        }
-    }];
-
 }
 
 -(void)showCorrectView

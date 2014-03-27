@@ -30,7 +30,7 @@
 -(void)showCorrect;
 -(void)hideCorrect;
 
--(void)rotate;
+-(void)rotate:(int)mode;
 -(void)rotateBack;
 
 -(void)changeSize;
@@ -39,6 +39,8 @@
 -(void)changeAlpha;
 -(void)resetAlpha;
 
--(void)beginSpin;
+-(void)beginSpin:(int)mode;
 -(void)endSpin;
+
+-(void)reset;
 @end

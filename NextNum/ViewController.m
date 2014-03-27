@@ -530,27 +530,6 @@
     
     if (score > self.worldRecord) {
         [self saveWorldRecord:score];
-//        [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
-//        [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//            if (error) {
-//                NSLog(@"******\n%@",error.description);
-//            }
-//            if (succeeded) {
-//                NSLog(@"######");
-//                [self updateWorldRecord:score];
-//            }else{
-//                [self.indicator startAnimating];
-////                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-////                    int latestWR = [[object objectForKey:@"record"] intValue];
-////                    NSLog(@"latestWR: %d",latestWR);
-////                    self.wrObject = object;
-////                    [self updateWorldRecord:latestWR];
-////                    [self.indicator stopAnimating];
-////                }];
-////                [self.wrObject refresh];
-//                [self readWorldRecord];
-//            }
-//        }];
     }
     
     PopupVC *popup = [[PopupVC alloc] initWithNibName:@"PopupVC" bundle:nil];
@@ -642,6 +621,7 @@
         [view clearNumber];
         [view hideRedCross];
         [view hideCorrect];
+        [view reset];
     }
     [self setNumber];
     [self setTime2];
@@ -697,16 +677,24 @@
             [numV changeSize];
         }
         
-        if (self.currentNumber > 60) { // begin rotate
-            [numV rotate];
+        if (self.currentNumber > 60 && self.currentNumber <= 100 ) { // begin rotate mode 0
+            [numV rotate:0];
         }
         
-//        if (self.currentNumber > 5) { // change alpha
-//            [numV changeAlpha];
-//        }
+        if (self.currentNumber > 100 && self.currentNumber <= 160 ) { // begin rotate mode 1
+            [numV rotate:1];
+        }
         
-        if (self.currentNumber > 150) { // begin spinning
-            [numV beginSpin];
+        if (self.currentNumber > 85) { // change alpha
+            [numV changeAlpha];
+        }
+        
+        if (self.currentNumber > 160 && self.currentNumber <= 200 ) { // begin spinning mode 0
+            [numV beginSpin:0];
+        }
+        
+        if (self.currentNumber > 200) { // begin spinning mode 1
+            [numV beginSpin:1];
         }
         
         num = num - 1;

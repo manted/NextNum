@@ -107,7 +107,6 @@
             //do wechat thing
             UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"Share to" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Moments",@"Chat", nil];
             [sheet showInView:self.vc.view];
-
         }else{
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"YYou may need to install the latest version of WeChat" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];

@@ -95,36 +95,43 @@
     [self.numLabel setFont:[UIFont fontWithName:@"AmericanTypewriter-Bold" size:60]];
 }
 
--(void)rotate
+#define ARC4RANDOM_MAX      0x100000000
+-(void)rotate:(int)mode
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.0];
     
-    int x = arc4random() % 7;
-    switch (x) {
-        case 0:
-            self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_4); // 45
-            break;
-        case 1:
-            self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_2); // 90
-            break;
-        case 2:
-            self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_4+M_PI_2); // 135
-            break;
-        case 3:
-            self.numLabel.transform = CGAffineTransformMakeRotation(M_PI); // 180
-            break;
-        case 4:
-            self.numLabel.transform = CGAffineTransformMakeRotation(-M_PI_4); // -45
-            break;
-        case 5:
-            self.numLabel.transform = CGAffineTransformMakeRotation(-M_PI_2); // -90
-            break;
-        case 6:
-            self.numLabel.transform = CGAffineTransformMakeRotation(-(M_PI_4+M_PI_2)); // -135
-            break;
-        default:
-            break;
+    
+    if (mode == 0) {
+        int x = arc4random() % 7;
+        switch (x) {
+            case 0:
+                self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_4); // 45
+                break;
+            case 1:
+                self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_2); // 90
+                break;
+            case 2:
+                self.numLabel.transform = CGAffineTransformMakeRotation(M_PI_4+M_PI_2); // 135
+                break;
+            case 3:
+                self.numLabel.transform = CGAffineTransformMakeRotation(M_PI); // 180
+                break;
+            case 4:
+                self.numLabel.transform = CGAffineTransformMakeRotation(-M_PI_4); // -45
+                break;
+            case 5:
+                self.numLabel.transform = CGAffineTransformMakeRotation(-M_PI_2); // -90
+                break;
+            case 6:
+                self.numLabel.transform = CGAffineTransformMakeRotation(-(M_PI_4+M_PI_2)); // -135
+                break;
+            default:
+                break;
+        }
+    }else{
+        double val = ((double)arc4random() / ARC4RANDOM_MAX);
+        self.numLabel.transform = CGAffineTransformMakeRotation(val * M_PI * 2);
     }
     
     [UIView commitAnimations];
@@ -146,26 +153,27 @@
     int x = arc4random() % 6;
     switch (x) {
         case 0:
-            [self.numLabel setAlpha:0.95f];
+            [self.numLabel setAlpha:1.0f];
             break;
         case 1:
-            [self.numLabel setAlpha:0.90f];
-            break;
-        case 2:
-            [self.numLabel setAlpha:0.85f];
-            break;
-        case 3:
             [self.numLabel setAlpha:0.80f];
             break;
+        case 2:
+            [self.numLabel setAlpha:0.65f];
+            break;
+        case 3:
+            [self.numLabel setAlpha:0.55f];
+            break;
         case 4:
-            [self.numLabel setAlpha:0.75f];
+            [self.numLabel setAlpha:0.45f];
             break;
         case 5:
-            [self.numLabel setAlpha:0.70f];
+            [self.numLabel setAlpha:0.35f];
             break;
         default:
             break;
     }
+//    self.numLabel.alpha = 0.35f;
 }
 
 -(void)resetAlpha
@@ -173,7 +181,7 @@
     [self.numLabel setAlpha:1.0f];
 }
 
--(void)beginSpin
+-(void)beginSpin:(int)mode
 {
     if ([self.layer animationForKey:@"SpinAnimation"] == nil) {
         CABasicAnimation* animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
@@ -209,21 +217,42 @@
         
         float duration = 3.0f;
         x = arc4random() % 4;
-        switch (x) {
-            case 0:
-                duration = 3.5f;
-                break;
-            case 1:
-                duration = 4.5f;
-                break;
-            case 2:
-                duration = 5.0f;
-                break;
-            case 3:
-                duration = 6.0f;
-                break;
-            default:
-                break;
+        if (mode == 0) {
+            switch (x) {
+                case 0:
+                    duration = 4.0f;
+                    break;
+                case 1:
+                    duration = 4.8f;
+                    break;
+                case 2:
+                    duration = 5.6f;
+                    break;
+                case 3:
+                    duration = 6.4f;
+                    break;
+                default:
+                    break;
+            }
+
+        }else{
+            switch (x) {
+                case 0:
+                    duration = 3.0f;
+                    break;
+                case 1:
+                    duration = 3.8f;
+                    break;
+                case 2:
+                    duration = 4.6f;
+                    break;
+                case 3:
+                    duration = 5.4f;
+                    break;
+                default:
+                    break;
+            }
+
         }
         animation.duration = duration;
         animation.repeatCount = INFINITY;
@@ -260,6 +289,145 @@
             break;
     }
     return color;
+}
+
+#pragma mark - number
+-(void)setNumber:(int)number
+{
+    int temp = _number;
+    _number = number;
+    if (number == EMPTY_NUMBER) {
+        [self.numLabel setText:@""];
+        [self.imgV setImage:self.imgDark];
+    }else{
+        [self.numLabel setText:[NSString stringWithFormat:@"%d",number]];
+        [self.imgV setImage:self.imgLight];
+        [self.numLabel setTextColor:[self getColor]];
+    }
+    if (temp != self.number) {
+        [self flip];
+    }
+
+}
+
+-(int)getNumber
+{
+    return self.number;
+}
+
+-(void)clearNumber
+{
+//    [self rotateBack];
+//    [self resetSize];
+//    [self resetAlpha];
+//    [self endSpin];
+    self.number = EMPTY_NUMBER;
+    [self setIsWrongNumber:NO];
+}
+
+-(void)reset
+{
+    [self rotateBack];
+    [self resetSize];
+    [self resetAlpha];
+    [self endSpin];
+}
+
+-(BOOL)isTouching
+{
+    return _isTouching;
+}
+
+-(void)cancelTouching
+{
+    self.isTouching = NO;
+}
+
+-(BOOL)isEmpty
+{
+    return self.number == EMPTY_NUMBER;
+}
+
+#pragma mark - touch
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
+
+    NSLog(@"began number = %d", self.number);
+    self.isTouching = YES;
+    [self.vc beginTouchingNumber:self];
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    NSLog(@"end number = %d", self.number);
+    self.isTouching = NO;
+    [self.vc endTouchingNumber:self];
+}
+
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesCancelled:touches withEvent:event];
+    NSLog(@"touches cancelled");
+    self.isTouching = NO;
+    [self.vc gameOver];
+//    if ([self.vc isOver] == NO) {
+//        NSLog(@"touches cancelled numbeb of touching: %d",[self.vc numberOfTouching]);
+//        if ([self.vc numberOfTouching] >= 2) {
+//            NSLog(@"touches cancelled 2");
+//            [self.vc gameOver];
+//        }
+//    }
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+//    [super touchesMoved:touches withEvent:event];
+}
+
+#pragma mark - cross * correct
+-(void)hideRedCross
+{
+    [self.redCrossView removeFromSuperview];
+}
+
+-(void)showRedCross
+{
+    [self addSubview:self.redCrossView];
+}
+
+-(void)hideCorrect
+{
+    [self.correctView removeFromSuperview];
+}
+
+-(void)showCorrect
+{
+    [self addSubview:self.correctView];
+}
+
+- (void)flip
+{
+    if (self.number == EMPTY_NUMBER) {
+        self.isTouching = NO;
+        [self setUserInteractionEnabled:NO];
+        [UIView transitionFromView:self.frontView toView:self.backView
+                          duration:0.2
+                           options:UIViewAnimationOptionTransitionFlipFromLeft
+                        completion:^(BOOL success){
+                            [self setUserInteractionEnabled:YES];
+                        }];
+    }
+    else {
+        [self setUserInteractionEnabled:NO];
+        [UIView transitionFromView:self.backView toView:self.frontView
+                          duration:0.2
+                           options:UIViewAnimationOptionTransitionFlipFromLeft
+                        completion:^(BOOL success){
+                            [self setUserInteractionEnabled:YES];
+                        }];
+    }
 }
 
 #pragma mark - UI
@@ -357,137 +525,6 @@
         _imgLight = [UIImage imageNamed:@"numViewLight"];
     }
     return _imgLight;
-}
-
-#pragma mark - number
--(void)setNumber:(int)number
-{
-    int temp = _number;
-    _number = number;
-    if (number == EMPTY_NUMBER) {
-        [self.numLabel setText:@""];
-        [self.imgV setImage:self.imgDark];
-    }else{
-        [self.numLabel setText:[NSString stringWithFormat:@"%d",number]];
-        [self.imgV setImage:self.imgLight];
-        [self.numLabel setTextColor:[self getColor]];
-    }
-    if (temp != self.number) {
-        [self flip];
-    }
-
-}
-
--(int)getNumber
-{
-    return self.number;
-}
-
--(void)clearNumber
-{
-    [self rotateBack];
-    [self resetSize];
-    [self resetAlpha];
-    [self endSpin];
-    self.number = EMPTY_NUMBER;
-    [self setIsWrongNumber:NO];
-}
-
--(BOOL)isTouching
-{
-    return _isTouching;
-}
-
--(void)cancelTouching
-{
-    self.isTouching = NO;
-}
-
--(BOOL)isEmpty
-{
-    return self.number == EMPTY_NUMBER;
-}
-
-#pragma mark - touch
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-//    [super touchesBegan:touches withEvent:event];
-
-    NSLog(@"began number = %d", self.number);
-    self.isTouching = YES;
-    [self.vc beginTouchingNumber:self];
-}
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-//    [super touchesEnded:touches withEvent:event];
-    NSLog(@"end number = %d", self.number);
-    self.isTouching = NO;
-    [self.vc endTouchingNumber:self];
-}
-
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-//    [super touchesCancelled:touches withEvent:event];
-    NSLog(@"touches cancelled");
-    self.isTouching = NO;
-    [self.vc gameOver];
-//    if ([self.vc isOver] == NO) {
-//        NSLog(@"touches cancelled numbeb of touching: %d",[self.vc numberOfTouching]);
-//        if ([self.vc numberOfTouching] >= 2) {
-//            NSLog(@"touches cancelled 2");
-//            [self.vc gameOver];
-//        }
-//    }
-}
-
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-//    [super touchesMoved:touches withEvent:event];
-}
-
-#pragma mark - cross * correct
--(void)hideRedCross
-{
-    [self.redCrossView removeFromSuperview];
-}
-
--(void)showRedCross
-{
-    [self addSubview:self.redCrossView];
-}
-
--(void)hideCorrect
-{
-    [self.correctView removeFromSuperview];
-}
-
--(void)showCorrect
-{
-    [self addSubview:self.correctView];
-}
-
-- (void)flip
-{
-    if (self.number == EMPTY_NUMBER) {
-        self.isTouching = NO;
-        [self setUserInteractionEnabled:NO];
-        [UIView transitionFromView:self.frontView toView:self.backView
-                          duration:0.2
-                           options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:^(BOOL success){
-                            [self setUserInteractionEnabled:YES];
-                        }];
-    }
-    else {
-        [self setUserInteractionEnabled:NO];
-        [UIView transitionFromView:self.backView toView:self.frontView
-                          duration:0.2
-                           options:UIViewAnimationOptionTransitionFlipFromLeft
-                        completion:^(BOOL success){
-                            [self setUserInteractionEnabled:YES];
-                        }];
-    }
 }
 
 @end

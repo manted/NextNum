@@ -141,6 +141,12 @@
                 [self saveWorldRecord:[self.persenalRecord.persenalRecord intValue]];
             }
         }
+        
+        if (error) {
+            NSLog(@"%@",error.description);
+            [self.worldLabel setText:[NSString stringWithFormat:@"WR: ?"]];
+            [self.indicator stopAnimating];
+        }
     }];
 }
 

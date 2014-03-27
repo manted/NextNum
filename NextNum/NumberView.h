@@ -35,4 +35,10 @@
 
 -(void)changeSize;
 -(void)resetSize;
+
+-(void)changeAlpha;
+-(void)resetAlpha;
+
+-(void)beginSpin;
+-(void)endSpin;
 @end

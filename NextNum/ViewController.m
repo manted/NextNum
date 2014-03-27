@@ -73,6 +73,9 @@
     [self.containerView addSubview:self.worldLabel];
 //    [self.view addSubview:self.timeLabel];
     [self.containerView addSubview:self.progressView];
+    [self.containerView addSubview:self.indicator];
+    [self.view addSubview:self.tipLabel];
+
     [self addNumberViews];
     self.currentNumber = INITIAL_NUMBER;
     [self setNumber];
@@ -89,14 +92,10 @@
     [self.persenalLabel setText:[NSString stringWithFormat:@"Best: "]];
     [self.worldLabel setText:[NSString stringWithFormat:@"WR: ?"]];
     
-    [self.containerView addSubview:self.indicator];
-    [self.view addSubview:self.tipLabel];
+//    [self.containerView addSubview:self.indicator];
+//    [self.view addSubview:self.tipLabel];
     NSLog(@"addbombs");
     [self addBombs];
-    //read persenal and world record
-    [self readPersenalRecord];
-    [self readWorldRecord];
-
 
     self.isOver = YES;
     
@@ -108,6 +107,18 @@
         [self hideTip];
         [self showGuide];
     }
+    
+    [self readPersenalRecord];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    //read persenal and world record
+//    [self readPersenalRecord];
+    self.worldRecord = 0;
+    [self readWorldRecord];
 }
 
 #pragma mark - Parse
@@ -121,6 +132,15 @@
         self.wrObject = worldRecord;
         [self updateWorldRecord:wr];
         [self.indicator stopAnimating];
+        
+        if (self.persenalRecord.persenalRecord != nil) {
+            // current wr is less than best
+            if ([self.persenalRecord.persenalRecord intValue] > wr) {
+                NSLog(@"best > wr");
+                [self.indicator startAnimating];
+                [self saveWorldRecord:[self.persenalRecord.persenalRecord intValue]];
+            }
+        }
     }];
 }
 
@@ -475,27 +495,28 @@
     }
     
     if (score > self.worldRecord) {
-        [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
-        [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (error) {
-                NSLog(@"******\n%@",error.description);
-            }
-            if (succeeded) {
-                NSLog(@"######");
-                [self updateWorldRecord:score];
-            }else{
-                [self.indicator startAnimating];
-//                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-//                    int latestWR = [[object objectForKey:@"record"] intValue];
-//                    NSLog(@"latestWR: %d",latestWR);
-//                    self.wrObject = object;
-//                    [self updateWorldRecord:latestWR];
-//                    [self.indicator stopAnimating];
-//                }];
-//                [self.wrObject refresh];
-                [self readWorldRecord];
-            }
-        }];
+        [self saveWorldRecord:score];
+//        [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
+//        [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+//            if (error) {
+//                NSLog(@"******\n%@",error.description);
+//            }
+//            if (succeeded) {
+//                NSLog(@"######");
+//                [self updateWorldRecord:score];
+//            }else{
+//                [self.indicator startAnimating];
+////                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+////                    int latestWR = [[object objectForKey:@"record"] intValue];
+////                    NSLog(@"latestWR: %d",latestWR);
+////                    self.wrObject = object;
+////                    [self updateWorldRecord:latestWR];
+////                    [self.indicator stopAnimating];
+////                }];
+////                [self.wrObject refresh];
+//                [self readWorldRecord];
+//            }
+//        }];
     }
     
     PopupVC *popup = [[PopupVC alloc] initWithNibName:@"PopupVC" bundle:nil];
@@ -504,6 +525,36 @@
     UIImage *img = [self imageWithView:self.containerView];
     popup.img = img;
     [self presentPopupViewController:popup animated:YES completion:nil];
+    
+    [self stopSpin];
+}
+
+-(void)saveWorldRecord:(int)score
+{
+    NSLog(@"save wr");
+    [self.wrObject setValue:[NSNumber numberWithInt:score] forKey:@"record"];
+    [self.wrObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"******\n%@",error.description);
+        }
+        if (succeeded) {
+            NSLog(@"######");
+            [self updateWorldRecord:score];
+            [self.indicator stopAnimating];
+        }else{
+//            [self.indicator startAnimating];
+            //                [self.wrObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            //                    int latestWR = [[object objectForKey:@"record"] intValue];
+            //                    NSLog(@"latestWR: %d",latestWR);
+            //                    self.wrObject = object;
+            //                    [self updateWorldRecord:latestWR];
+            //                    [self.indicator stopAnimating];
+            //                }];
+            //                [self.wrObject refresh];
+            [self readWorldRecord];
+        }
+    }];
+
 }
 
 -(void)showCorrectView
@@ -512,6 +563,13 @@
         if ([view getNumber] == self.currentNumber) {
             [view showCorrect];
         }
+    }
+}
+
+-(void)stopSpin
+{
+    for (NumberView *view in self.array) {
+        [view endSpin];
     }
 }
 
@@ -607,36 +665,42 @@
 
 -(void)setNumberToViewsOf:(int)num
 {
+    
     while (num > 0) {
         int x = arc4random() % 16;
-        while ([(NumberView*)[self.array objectAtIndex:x]isEmpty] == NO) {
+        NumberView *numV = (NumberView*)[self.array objectAtIndex:x];
+        while ([numV isEmpty] == NO) {
             x = arc4random() % 16;
+            numV = (NumberView*)[self.array objectAtIndex:x];
         }
         if (num == 1) { //correct number
-            if (self.currentNumber > 40) { // change size
-                [(NumberView*)[self.array objectAtIndex:x] changeSize];
-            }
             
-            if (self.currentNumber > 60) { // begin rotate
-                [(NumberView*)[self.array objectAtIndex:x] rotate];
-            }
-            
-            [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber];
+            [numV setNumber:self.currentNumber];
             
         }else{ //wrong number
             int wrongNum = arc4random() % 21 - 10;
             while (wrongNum == 0) {
                 wrongNum = arc4random() % 21 - 10;
             }
-            if (self.currentNumber > 40) { // change size
-                [(NumberView*)[self.array objectAtIndex:x] changeSize];
-            }
-            if (self.currentNumber > 60) { // begin rotate
-                [(NumberView*)[self.array objectAtIndex:x] rotate];
-            }
             
-            [(NumberView*)[self.array objectAtIndex:x] setNumber:self.currentNumber + wrongNum];
-            [(NumberView*)[self.array objectAtIndex:x] setIsWrongNumber:YES];
+            [numV setNumber:self.currentNumber + wrongNum];
+            [numV setIsWrongNumber:YES];
+        }
+        
+        if (self.currentNumber > 35) { // change size
+            [numV changeSize];
+        }
+        
+        if (self.currentNumber > 60) { // begin rotate
+            [numV rotate];
+        }
+        
+//        if (self.currentNumber > 5) { // change alpha
+//            [numV changeAlpha];
+//        }
+        
+        if (self.currentNumber > 150) { // begin spinning
+            [numV beginSpin];
         }
         
         num = num - 1;
@@ -648,7 +712,7 @@
     for (NumberView *view in self.array) {
         if (view.isWrongNumber) {
             [view clearNumber];
-            [view setIsWrongNumber:NO];
+//            [view setIsWrongNumber:NO];
         }
     }
 }
@@ -674,18 +738,18 @@
 
 -(void)addTime
 {
-    if (self.currentNumber < 40) {
+    if (self.currentNumber < 35) {
         self.currentTime = self.currentTime + 1.2f;
-    }else if (self.currentNumber < 70) {
+    }else if (self.currentNumber < 60) {
         self.currentTime = self.currentTime + 1.6f;
     }else if (self.currentNumber < 100) {
         self.currentTime = self.currentTime + 2.0f;
-    }else if (self.currentNumber < 120) {
-        self.currentTime = self.currentTime + 2.3f;
     }else if (self.currentNumber < 130) {
-        self.currentTime = self.currentTime + 2.6f;
+        self.currentTime = self.currentTime + 2.4f;
+    }else if (self.currentNumber < 160) {
+        self.currentTime = self.currentTime + 2.8f;
     }else{
-        self.currentTime = self.currentTime + 2.9f;
+        self.currentTime = self.currentTime + 3.2f;
     }
     
     if (self.currentTime > self.timeLimit) {
@@ -771,7 +835,7 @@
     if (self.popupViewController == nil) {
         [self showBombs];
     }
-    [self readPersenalRecord];
+//    [self readPersenalRecord];
 }
 
 #pragma mark - guide

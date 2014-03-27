@@ -65,6 +65,7 @@
     return _numLabel;
 }
 
+#pragma mark - change number
 -(void)changeSize
 {
     int x = arc4random() % 5;
@@ -140,6 +141,101 @@
     [UIView commitAnimations];
 }
 
+-(void)changeAlpha
+{
+    int x = arc4random() % 6;
+    switch (x) {
+        case 0:
+            [self.numLabel setAlpha:0.95f];
+            break;
+        case 1:
+            [self.numLabel setAlpha:0.90f];
+            break;
+        case 2:
+            [self.numLabel setAlpha:0.85f];
+            break;
+        case 3:
+            [self.numLabel setAlpha:0.80f];
+            break;
+        case 4:
+            [self.numLabel setAlpha:0.75f];
+            break;
+        case 5:
+            [self.numLabel setAlpha:0.70f];
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)resetAlpha
+{
+    [self.numLabel setAlpha:1.0f];
+}
+
+-(void)beginSpin
+{
+    if ([self.layer animationForKey:@"SpinAnimation"] == nil) {
+        CABasicAnimation* animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+        
+        float fromValue = 0.0f;
+        float toValue = 0.0f;
+        int x = arc4random() % 4;
+        switch (x) {
+            case 0:
+                fromValue = M_PI_2;
+                break;
+            case 1:
+                fromValue = M_PI;
+                break;
+            case 2:
+                fromValue = -M_PI_2;
+                break;
+            case 3:
+                fromValue = 0;
+                break;
+            default:
+                break;
+        }
+        x = arc4random() % 2;
+        if (x == 0) {
+            toValue = fromValue + 2 * M_PI;
+        }else{
+            toValue = fromValue - 2 * M_PI;
+        }
+        
+        animation.fromValue = [NSNumber numberWithFloat:fromValue];
+        animation.toValue = [NSNumber numberWithFloat: toValue];
+        
+        float duration = 3.0f;
+        x = arc4random() % 4;
+        switch (x) {
+            case 0:
+                duration = 3.5f;
+                break;
+            case 1:
+                duration = 4.5f;
+                break;
+            case 2:
+                duration = 5.0f;
+                break;
+            case 3:
+                duration = 6.0f;
+                break;
+            default:
+                break;
+        }
+        animation.duration = duration;
+        animation.repeatCount = INFINITY;
+        [self.numLabel.layer addAnimation:animation forKey:@"SpinAnimation"];
+    }
+}
+
+-(void)endSpin
+{
+    [self.numLabel.layer removeAnimationForKey:@"SpinAnimation"];
+}
+
 -(UIColor*)getColor
 {
     int x = arc4random() % 5;
@@ -166,6 +262,7 @@
     return color;
 }
 
+#pragma mark - UI
 -(UIView*)frontView
 {
     if (!_frontView) {
@@ -262,6 +359,7 @@
     return _imgLight;
 }
 
+#pragma mark - number
 -(void)setNumber:(int)number
 {
     int temp = _number;
@@ -289,6 +387,8 @@
 {
     [self rotateBack];
     [self resetSize];
+    [self resetAlpha];
+    [self endSpin];
     self.number = EMPTY_NUMBER;
     [self setIsWrongNumber:NO];
 }
@@ -303,6 +403,12 @@
     self.isTouching = NO;
 }
 
+-(BOOL)isEmpty
+{
+    return self.number == EMPTY_NUMBER;
+}
+
+#pragma mark - touch
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 //    [super touchesBegan:touches withEvent:event];
@@ -340,11 +446,7 @@
 //    [super touchesMoved:touches withEvent:event];
 }
 
--(BOOL)isEmpty
-{
-    return self.number == EMPTY_NUMBER;
-}
-
+#pragma mark - cross * correct
 -(void)hideRedCross
 {
     [self.redCrossView removeFromSuperview];

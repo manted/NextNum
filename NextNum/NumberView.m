@@ -22,7 +22,7 @@
 
 @property (nonatomic) BOOL isTouching;
 
-//@property (nonatomic, strong) UITapGestureRecognizer *recognizer;
+@property (nonatomic, strong) UILongPressGestureRecognizer *recognizer;
 
 @property (nonatomic, strong) UIView *backView;
 @property (nonatomic, strong) UIView *frontView;
@@ -48,6 +48,7 @@
         
         self.numLabel.transform = CGAffineTransformMakeRotation(0); // init transform
         
+        [self addGestureRecognizer:self.recognizer];
     }
     return self;
 }
@@ -63,6 +64,15 @@
         [_numLabel setTextAlignment:NSTextAlignmentCenter];
     }
     return _numLabel;
+}
+
+-(UILongPressGestureRecognizer*)recognizer
+{
+    if (!_recognizer) {
+        _recognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPress:)];
+        [_recognizer setMinimumPressDuration:0.01f];
+    }
+    return _recognizer;
 }
 
 #pragma mark - change number
@@ -348,43 +358,61 @@
     return self.number == EMPTY_NUMBER;
 }
 
+#pragma mark - recognizer
+-(void)longPress:(UILongPressGestureRecognizer*)recognizer
+{
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"began number = %d", self.number);
+        self.isTouching = YES;
+        [self.vc beginTouchingNumber:self];
+    }else if(recognizer.state == UIGestureRecognizerStateEnded){
+        NSLog(@"end number = %d", self.number);
+        self.isTouching = NO;
+        [self.vc endTouchingNumber:self];
+    }else if(recognizer.state == UIGestureRecognizerStateCancelled){
+        NSLog(@"touches cancelled");
+        self.isTouching = NO;
+        [self.vc gameOver];
+    }
+}
+
 #pragma mark - touch
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [super touchesBegan:touches withEvent:event];
-
-    NSLog(@"began number = %d", self.number);
-    self.isTouching = YES;
-    [self.vc beginTouchingNumber:self];
-}
-
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [super touchesEnded:touches withEvent:event];
-    NSLog(@"end number = %d", self.number);
-    self.isTouching = NO;
-    [self.vc endTouchingNumber:self];
-}
-
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [super touchesCancelled:touches withEvent:event];
-    NSLog(@"touches cancelled");
-    self.isTouching = NO;
-    [self.vc gameOver];
-//    if ([self.vc isOver] == NO) {
-//        NSLog(@"touches cancelled numbeb of touching: %d",[self.vc numberOfTouching]);
-//        if ([self.vc numberOfTouching] >= 2) {
-//            NSLog(@"touches cancelled 2");
-//            [self.vc gameOver];
-//        }
-//    }
-}
-
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-//    [super touchesMoved:touches withEvent:event];
-}
+//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+////    [super touchesBegan:touches withEvent:event];
+//
+////    NSLog(@"began number = %d", self.number);
+////    self.isTouching = YES;
+////    [self.vc beginTouchingNumber:self];
+//}
+//
+//-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+////    [super touchesEnded:touches withEvent:event];
+////    NSLog(@"end number = %d", self.number);
+////    self.isTouching = NO;
+////    [self.vc endTouchingNumber:self];
+//}
+//
+//-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+////    [super touchesCancelled:touches withEvent:event];
+////    NSLog(@"touches cancelled");
+////    self.isTouching = NO;
+////    [self.vc gameOver];
+////    if ([self.vc isOver] == NO) {
+////        NSLog(@"touches cancelled numbeb of touching: %d",[self.vc numberOfTouching]);
+////        if ([self.vc numberOfTouching] >= 2) {
+////            NSLog(@"touches cancelled 2");
+////            [self.vc gameOver];
+////        }
+////    }
+//}
+//
+//-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+////    [super touchesMoved:touches withEvent:event];
+//}
 
 #pragma mark - cross * correct
 -(void)hideRedCross

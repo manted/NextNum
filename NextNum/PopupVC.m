@@ -104,7 +104,10 @@
 - (IBAction)shareToWeChat:(id)sender {
     if ([WXApi isWXAppInstalled]) {
         if ([WXApi isWXAppSupportApi]) {
-            [self sendImageContent];
+            //do wechat thing
+            UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"Share to" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Moments",@"Chat", nil];
+            [sheet showInView:self.vc.view];
+
         }else{
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Oops!" message:@"YYou may need to install the latest version of WeChat" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
@@ -115,7 +118,7 @@
     } 
 }
 
-- (void) sendImageContent
+- (void)sendImageContentToScene:(int)scene
 {
     WXMediaMessage *message = [WXMediaMessage message];
     
@@ -128,9 +131,19 @@
     SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
     req.bText = NO;
     req.message = message;
-    req.scene = WXSceneTimeline;
+    req.scene = scene;
     
     [WXApi sendReq:req];
+}
+
+#pragma mark - action sheet
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) { // timeline
+        [self sendImageContentToScene:WXSceneTimeline];
+    }else if (buttonIndex == 1){  // chat
+        [self sendImageContentToScene:WXSceneSession];
+    }
 }
 
 @end

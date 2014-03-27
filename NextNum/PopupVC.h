@@ -12,7 +12,7 @@
 
 @class ViewController;
 
-@interface PopupVC : UIViewController
+@interface PopupVC : UIViewController <UIActionSheetDelegate>
 
 @property (nonatomic, strong) ViewController *vc;
 @property (nonatomic, strong) UIImage *img;
